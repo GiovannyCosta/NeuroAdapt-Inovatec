@@ -1,0 +1,19 @@
+# Dependências
+node_modules/
+/dist
+.netlify
+.vscode
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+
+# Logs e depuração
+*.log
+npm-debug.log*
+
+# Arquivos de configuração de editor (opcional)
+.vscode/
+.idea/
+
+# Arquivos de ambiente (se tiver senhas/chaves no futuro)
+.env

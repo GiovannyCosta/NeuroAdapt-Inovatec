@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- ============================================
+         ESTRUTURA BASE E IMPORTAÇÕES
+         ============================================ -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroAdapt - Modelo Interativo</title>
+
+    <!-- Framework e Bibliotecas -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Estilos Customizados -->
+    <link rel="stylesheet" href="src/css/style.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen">
+    <!-- ============================================
+         ELEMENTOS DE ÁUDIO GLOBAL
+         ============================================ -->
+    <audio id="achievement-sound" src="src/assets/ding.mp3" preload="auto" style="display: none;"></audio>
+    <audio id="correct-guess-sound" src="src/assets/sounds/correct-sound.mp3" preload="auto"
+        style="display: none;"></audio>
+
+    <!-- ============================================
+         ESTRUTURA PRINCIPAL DO APLICATIVO
+         SHELL: Contém todos os elementos da interface
+         ============================================ -->
+    <div id="app-shell" class="theme-calm">
+        <div
+            class="app-container rounded-[40px] shadow-2xl overflow-hidden flex flex-col relative border-8 border-black">
+
+            <div class="flex-grow overflow-hidden">
+
+                <div id="welcome-screen"
+                    class="screen h-full flex flex-col items-center justify-center text-center p-8">
+                    <div class="accent-bg text-white w-32 h-32 rounded-full flex items-center justify-center mb-8">
+                        <i data-lucide="brain-circuit" class="w-16 h-16"></i>
+                    </div>
+                    <h1 class="text-3xl font-bold mb-2">NeuroAdapt</h1>
+                    <p class="text-lg" style="color: var(--text-secondary);">Um espaço seguro para crescer.</p>
+                </div>
+
+                <div id="home-screen" class="screen hidden h-full flex flex-col">
+                    <main class="flex-grow overflow-y-auto pb-28">
+
+                        <div class="secondary-accent-bg p-6 shadow-lg rounded-bl-2xl rounded-br-[70px] space-y-8 pt-16">
+
+                            <div class="flex items-start justify-between">
+
+                                <div class="flex items-center space-x-4">
+                                    <div id="home-profile-pic-container"
+                                        class="accent-bg text-white w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 transition-colors">
+                                        <i id="home-profile-icon" data-lucide="user" class="w-8 h-8"></i>
+                                    </div>
+
+                                    <div>
+                                        <h1 id="app-title-home" class="text-3xl font-bold"
+                                            style="color: var(--text-primary);">NeuroAdapt</h1>
+                                        <div class="flex items-center space-x-1 mt-1">
+                                            <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-yellow-500"></i>
+                                            <span id="total-stars-home" class="text-lg font-bold"
+                                                style="color: var(--text-secondary);">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button id="disclaimer-btn"
+                                    class="disclaimer-round-btn mt-2 transition-transform active:scale-95">
+                                    <i data-lucide="alert-triangle" class="w-6 h-6 text-white"></i>
+                                </button>
+                            </div>
+                            <div class="space-y-4">
+                                <button id="profile-action-btn"
+                                    class="card w-full p-4 rounded-xl shadow-md flex justify-between items-center transition-transform transform hover:scale-105 active:scale-95">
+                                    <span id="profile-btn-text" class="font-semibold">Fazer Login</span>
+                                    <i data-lucide="chevron-right" class="w-5 h-5"
+                                        style="color: var(--text-secondary);"></i>
+                                </button>
+                                <button id="open-achievements-btn"
+                                    class="card w-full p-4 rounded-xl shadow-md flex justify-between items-center transition-transform transform hover:scale-105 active:scale-95">
+                                    <span class="font-semibold">Minhas Conquistas</span>
+                                    <i data-lucide="chevron-right" class="w-5 h-5"
+                                        style="color: var(--text-secondary);"></i>
+                                </button>
+                                <button id="open-about-btn"
+                                    class="card w-full p-4 rounded-xl shadow-md flex justify-between items-center transition-transform transform hover:scale-105 active:scale-95">
+                                    <span class="font-semibold">Sobre o Aplicativo</span>
+                                    <i data-lucide="chevron-right" class="w-5 h-5"
+                                        style="color: var(--text-secondary);"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="w-full text-center pt-8 px-6 mt-8">
+                            <p class="font-medium mb-4">Como você se sente hoje?</p>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button id="calm-mode-btn"
+                                    class="card p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 border-2 border-blue-500 opacity-100 transition-transform hover:scale-105 active:scale-95">
+                                    <i data-lucide="moon" class="w-8 h-8 text-blue-500"></i>
+                                    <span class="font-semibold text-blue-800">Modo Calmo</span>
+                                </button>
+                                <button id="stimulant-mode-btn"
+                                    class="card p-4 rounded-2xl flex flex-col items-center justify-center space-y-2 border-2 border-transparent opacity-60 transition-transform hover:scale-105 active:scale-95">
+                                    <i data-lucide="sparkles" class="w-8 h-8 text-amber-500"></i>
+                                    <span class="font-semibold text-amber-800">Estimulante</span>
+                                </button>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+                <div id="login-screen"
+                    class="screen hidden h-full flex flex-col items-center justify-center p-6 relative z-50 bg-gray-50">
+                    <button id="login-back-btn"
+                        class="absolute top-12 left-6 p-2 rounded-full bg-white shadow-sm hover:bg-gray-200 transition-colors z-20 border border-gray-200">
+                        <i data-lucide="arrow-left" class="w-6 h-6 text-gray-600"></i>
+                    </button>
+
+                    <form class="login-form-container" id="login-form">
+                        <div class="form-heading">Login</div>
+
+                        <div id="login-error-msg"></div>
+                        <div class="input-group">
+                            <label class="label" for="login-email">Email</label>
+                            <input required="" placeholder="ex: nome@gmail.com" name="email" id="login-email"
+                                type="email" autocomplete="off" />
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="login-password">Senha</label>
+                            <input required="" placeholder="Digite sua senha" name="password" id="login-password"
+                                type="password" />
+                        </div>
+                        <div class="forgot-password">
+                            <a href="#">Esqueceu a senha?</a>
+                        </div>
+                        <button class="submit-login-btn" type="submit">Entrar</button>
+                        <div class="signup-link">Não tem conta? <a href="#">Cadastre-se</a></div>
+                    </form>
+                </div>
+                <div id="achievements-screen" class="screen hidden h-full flex flex-col">
+                    <header class="p-4 pt-12 px-6 relative text-center">
+                        <button id="achievements-back-btn"
+                            class="absolute left-6 top-11 p-1 rounded-full hover:bg-gray-200 transition-colors">
+                            <i data-lucide="arrow-left" class="w-6 h-6" style="color: var(--text-secondary);"></i>
+                        </button>
+                        <h1 class="text-2xl font-bold tracking-tight">Minhas Conquistas</h1>
+                    </header>
+
+                    <main class="flex-grow overflow-y-auto px-6 pb-28 space-y-4">
+
+                        <div class="card p-4 rounded-xl shadow-md flex items-center justify-center space-x-2">
+                            <i data-lucide="star" class="w-6 h-6 text-yellow-500 fill-yellow-500"></i>
+                            <h2 class="text-lg font-bold" style="color: var(--text-primary);">
+                                Total de Estrelas: <span id="achievements-star-count">0</span>
+                            </h2>
+                        </div>
+
+                        <div id="achievements-list" class="space-y-3">
+                        </div>
+
+                    </main>
+                </div>
+                <div id="account-screen" class="screen hidden h-full flex flex-col">
+                    <header class="p-4 pt-12 px-6 relative text-center">
+                        <button id="account-back-btn"
+                            class="absolute left-6 top-11 p-1 rounded-full hover:bg-gray-200 transition-colors">
+                            <i data-lucide="arrow-left" class="w-6 h-6" style="color: var(--text-secondary);"></i>
+                        </button>
+                        <h1 class="text-2xl font-bold tracking-tight">Minha Conta</h1>
+                    </header>
+
+                    <main class="flex-grow overflow-y-auto px-6 pb-28 space-y-6">
+
+                        <div class="card p-5 rounded-2xl shadow-md flex items-center space-x-4">
+                            <button id="account-profile-pic-btn"
+                                class="accent-bg text-white w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 transition-colors shadow-md">
+                                <i id="account-profile-icon" data-lucide="user-circle" class="w-10 h-10"></i>
+                            </button>
+                            <div>
+                                <h2 id="account-user-name" class="text-xl font-bold"
+                                    style="color: var(--text-primary);">NeuroAdapt
+                                </h2>
+                                <p id="account-status-text" class="text-sm" style="color: var(--text-secondary);">
+                                    Conta Principal</p>
+                            </div>
+                        </div>
+
+                        <div class="card p-5 rounded-2xl shadow-md space-y-3">
+                            <h3 class="text-lg font-semibold mb-3" style="color: var(--text-primary);">Gerenciamento
+                            </h3>
+
+                            <button
+                                class="w-full p-4 rounded-xl flex justify-between items-center secondary-accent-bg transition-transform transform hover:scale-105 active:scale-95">
+                                <span class="font-semibold accent-text">Conectar Outro Perfil</span>
+                                <i data-lucide="users" class="w-5 h-5 accent-text"></i>
+                            </button>
+
+                            <button
+                                class="w-full p-4 rounded-xl flex justify-between items-center secondary-accent-bg transition-transform transform hover:scale-105 active:scale-95">
+                                <span class="font-semibold accent-text">Preferências de Tema</span>
+                                <i data-lucide="sliders-horizontal" class="w-5 h-5 accent-text"></i>
+                            </button>
+                        </div>
+
+                        <div class="card p-5 rounded-2xl shadow-md space-y-3">
+                            <button
+                                class="w-full p-4 rounded-xl flex justify-between items-center transition-transform transform hover:scale-105 active:scale-95"
+                                style="background-color: var(--game-incorrect); opacity: 0.9;">
+                                <span class="font-semibold text-white">Sair (Logout)</span>
+                                <i data-lucide="log-out" class="w-5 h-5 text-white"></i>
+                            </button>
+                            <!-- [DEV] Resetar Tudo -->
+                            <!-- <button id="dev-reset-btn"
+                                class="w-full p-4 rounded-xl flex justify-between items-center border-2 border-red-500 text-red-500 font-bold hover:bg-red-50 transition-colors mt-4 active:scale-95">
+                                <span>[DEV] Resetar Tudo</span>
+                                <i data-lucide="trash-2" class="w-5 h-5"></i>
+                            </button> -->
+                        </div>
+
+                    </main>
+                </div>
+
+                <!-- ============================================
+                    TELAS DE JOGOS INDIVIDUAIS
+                    ============================================ -->
+                <div id="games-screen" class="screen hidden h-full flex flex-col bg-gray-50/50">
+                    <header class="p-6 pt-12 pb-2 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-semibold text-gray-400 uppercase tracking-wider">NeuroAdapt</p>
+                            <h1 class="text-3xl font-black tracking-tight text-gray-800 leading-none">
+                                Biblioteca<br><span class="accent-text">de Jogos</span>
+                            </h1>
+                        </div>
+
+                        <div class="flex items-center space-x-3">
+                            <div class="flex flex-col items-end">
+                                <div
+                                    class="flex items-center space-x-2 bg-white px-3 py-2 rounded-2xl shadow-sm border border-yellow-300">
+                                    <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-yellow-500"></i>
+                                    <span id="library-star-count" class="font-bold text-lg text-yellow-600">0</span>
+                                </div>
+                                <span
+                                    class="text-[10px] font-bold text-gray-400 mt-1 mr-1 uppercase tracking-wide">Estrelas</span>
+                            </div>
+
+                            <div class="flex flex-col items-end">
+                                <div
+                                    class="flex items-center space-x-2 bg-white px-3 py-2 rounded-2xl shadow-sm border border-green-300">
+                                    <span id="library-map-count" class="font-bold text-lg text-blue-600">0</span>
+                                    <span class="text-xl">🗺️</span>
+                                </div>
+                                <span
+                                    class="text-[10px] font-bold text-gray-400 mt-1 mr-1 uppercase tracking-wide">Mapas</span>
+                            </div>
+                        </div>
+                    </header>
+
+                    <main class="flex-grow overflow-y-auto px-6 pb-32 space-y-8 no-scrollbar pt-4">
+
+                        <section class="animate-fade-in" style="animation-delay: 0.1s;">
+                            <div class="flex items-center space-x-2 mb-3 px-1">
+                                <div class="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center">
+                                    <i data-lucide="palette" class="w-3 h-3 text-purple-600"></i>
+                                </div>
+                                <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wider">Cores e Sons</h2>
+                            </div>
+
+                            <div class="space-y-3">
+                                <a href="#"
+                                    class="game-card-link card relative w-full flex items-center p-4 rounded-3xl shadow-sm border-2 border-transparent hover:border-purple-200 transition-all hover:scale-[1.01] active:scale-95 group overflow-hidden"
+                                    data-game="game-guess-color-screen" data-game-id="3">
+                                    <div
+                                        class="absolute -right-4 top-1/2 transform -translate-y-1/2 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
+                                        <i data-lucide="palette" class="w-24 h-24 text-purple-500"></i>
+                                    </div>
+
+                                    <div
+                                        class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center mr-4 shadow-inner flex-shrink-0 relative z-10">
+                                        <i data-lucide="palette" class="w-7 h-7"></i>
+                                    </div>
+
+                                    <div class="flex-grow relative z-10">
+                                        <h3 class="font-bold text-lg text-gray-800 leading-tight">Adivinhe a Cor</h3>
+                                        <p class="text-xs text-gray-500 font-medium">Percepção Visual</p>
+                                    </div>
+                                </a>
+
+                                <a href="#"
+                                    class="game-card-link card relative w-full flex items-center p-4 rounded-3xl shadow-sm border-2 border-transparent hover:border-blue-200 transition-all hover:scale-[1.01] active:scale-95 group overflow-hidden"
+                                    data-game="game-sound-screen" data-game-id="2">
+                                    <div
+                                        class="absolute -right-4 top-1/2 transform -translate-y-1/2 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
+                                        <i data-lucide="music" class="w-24 h-24 text-blue-500"></i>
+                                    </div>
+
+                                    <div
+                                        class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center mr-4 shadow-inner flex-shrink-0 relative z-10">
+                                        <i data-lucide="volume-2" class="w-7 h-7"></i>
+                                    </div>
+
+                                    <div class="flex-grow relative z-10">
+                                        <h3 class="font-bold text-lg text-gray-800 leading-tight">Adivinhe o Som</h3>
+                                        <p class="text-xs text-gray-500 font-medium">Discriminação Auditiva</p>
+                                    </div>
+
+                                    <span
+                                        class="absolute top-4 right-4 w-2 h-2 rounded-full bg-blue-500 animate-pulse z-20"></span>
+                                </a>
+                            </div>
+                        </section>
+
+                        <section class="animate-fade-in" style="animation-delay: 0.2s;">
+                            <div class="flex items-center space-x-2 mb-3 px-1">
+                                <div class="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center">
+                                    <i data-lucide="brain-circuit" class="w-3 h-3 text-teal-600"></i>
+                                </div>
+                                <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wider">Lógica e Sequência
+                                </h2>
+                            </div>
+
+                            <div class="space-y-3">
+
+                                <a href="#"
+                                    class="game-card-link card relative w-full flex items-center p-4 rounded-3xl shadow-sm border-2 border-transparent hover:border-teal-200 transition-all hover:scale-[1.01] active:scale-95 group overflow-hidden"
+                                    data-game="game-combine-shapes-screen" data-game-id="1">
+                                    <div
+                                        class="absolute -right-4 top-1/2 transform -translate-y-1/2 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
+                                        <i data-lucide="shapes" class="w-24 h-24 text-teal-500"></i>
+                                    </div>
+
+                                    <div
+                                        class="w-14 h-14 rounded-2xl bg-teal-100 text-teal-600 flex items-center justify-center mr-4 shadow-inner flex-shrink-0 relative z-10">
+                                        <i data-lucide="shapes" class="w-7 h-7"></i>
+                                    </div>
+
+                                    <div class="flex-grow relative z-10">
+                                        <h3 class="font-bold text-lg text-gray-800 leading-tight">Combine as Formas</h3>
+                                        <p class="text-xs text-gray-500 font-medium">Raciocínio Espacial</p>
+                                    </div>
+                                </a>
+
+                                <a href="#"
+                                    class="game-card-link card relative w-full flex items-center p-4 rounded-3xl shadow-sm border-2 border-transparent hover:border-green-200 transition-all hover:scale-[1.01] active:scale-95 group overflow-hidden"
+                                    data-game="game-connect-dots-screen" data-game-id="5">
+                                    <div
+                                        class="absolute -right-4 top-1/2 transform -translate-y-1/2 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
+                                        <i data-lucide="share-2" class="w-24 h-24 text-green-500"></i>
+                                    </div>
+
+                                    <div
+                                        class="w-14 h-14 rounded-2xl bg-green-100 text-green-600 flex items-center justify-center mr-4 shadow-inner flex-shrink-0 relative z-10">
+                                        <i data-lucide="share-2" class="w-7 h-7"></i>
+                                    </div>
+
+                                    <div class="flex-grow relative z-10">
+                                        <h3 class="font-bold text-lg text-gray-800 leading-tight">Ligue os Pontos</h3>
+                                        <p class="text-xs text-gray-500 font-medium">Coordenação Motora</p>
+                                    </div>
+                                </a>
+
+                                <a href="#"
+                                    class="game-card-link card relative w-full flex items-center p-4 rounded-3xl shadow-sm border-2 border-transparent hover:border-indigo-200 transition-all hover:scale-[1.01] active:scale-95 group overflow-hidden"
+                                    data-game="game-puzzle-screen" data-game-id="8">
+                                    <div
+                                        class="absolute -right-4 top-1/2 transform -translate-y-1/2 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
+                                        <i data-lucide="puzzle" class="w-24 h-24 text-indigo-500"></i>
+                                    </div>
+
+                                    <div
+                                        class="w-14 h-14 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center mr-4 shadow-inner flex-shrink-0 relative z-10">
+                                        <i data-lucide="puzzle" class="w-7 h-7"></i>
+                                    </div>
+
+                                    <div class="flex-grow relative z-10">
+                                        <h3 class="font-bold text-lg text-gray-800 leading-tight">Quebra-Cabeça</h3>
+                                        <p class="text-xs text-gray-500 font-medium">Montagem e Lógica</p>
+                                    </div>
+                                </a>
+
+                                <a href="#"
+                                    class="game-card-link card relative w-full flex items-center p-4 rounded-3xl shadow-sm border-2 border-transparent hover:border-orange-200 transition-all hover:scale-[1.01] active:scale-95 group overflow-hidden"
+                                    data-game="game-connect-numbers-screen" data-game-id="6">
+                                    <div
+                                        class="absolute -right-4 top-1/2 transform -translate-y-1/2 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
+                                        <i data-lucide="hash" class="w-24 h-24 text-orange-500"></i>
+                                    </div>
+
+                                    <div
+                                        class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center mr-4 shadow-inner flex-shrink-0 relative z-10">
+                                        <i data-lucide="hash" class="w-7 h-7"></i>
+                                    </div>
+
+                                    <div class="flex-grow relative z-10">
+                                        <h3 class="font-bold text-lg text-gray-800 leading-tight">Ligue os Números</h3>
+                                        <p class="text-xs text-gray-500 font-medium">Associação Numérica</p>
+                                    </div>
+                                </a>
+
+                                <a href="#"
+                                    class="game-card-link card relative w-full flex items-center p-4 rounded-3xl shadow-sm border-2 border-transparent hover:border-pink-200 transition-all hover:scale-[1.01] active:scale-95 group overflow-hidden"
+                                    data-game="game-color-sequence-screen" data-game-id="7">
+                                    <div
+                                        class="absolute -right-4 top-1/2 transform -translate-y-1/2 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
+                                        <i data-lucide="columns" class="w-24 h-24 text-pink-500"></i>
+                                    </div>
+
+                                    <div
+                                        class="w-14 h-14 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center mr-4 shadow-inner flex-shrink-0 relative z-10">
+                                        <i data-lucide="columns" class="w-7 h-7"></i>
+                                    </div>
+
+                                    <div class="flex-grow relative z-10">
+                                        <h3 class="font-bold text-lg text-gray-800 leading-tight">Sequência de Cores
+                                        </h3>
+                                        <p class="text-xs text-gray-500 font-medium">Memória Visual</p>
+                                    </div>
+                                </a>
+
+                            </div>
+                        </section>
+
+                        <section class="animate-fade-in" style="animation-delay: 0.3s;">
+                            <div class="flex items-center space-x-2 mb-3 px-1">
+                                <div class="w-6 h-6 rounded-full bg-yellow-100 flex items-center justify-center">
+                                    <i data-lucide="target" class="w-3 h-3 text-yellow-600"></i>
+                                </div>
+                                <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wider">Foco e Atenção</h2>
+                            </div>
+
+                            <div class="space-y-3">
+                                <a href="#"
+                                    class="game-card-link card relative w-full flex items-center p-4 rounded-3xl shadow-sm border-l-8 border-yellow-400 hover:bg-yellow-50 transition-all hover:scale-[1.01] active:scale-95 group overflow-hidden"
+                                    data-game="game-emotion-screen" data-game-id="4">
+
+                                    <div
+                                        class="absolute -right-4 top-1/2 transform -translate-y-1/2 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
+                                        <i data-lucide="smile" class="w-24 h-24 text-yellow-600"></i>
+                                    </div>
+
+                                    <div
+                                        class="w-14 h-14 rounded-2xl bg-yellow-100 flex items-center justify-center mr-4 shadow-inner flex-shrink-0 relative z-10">
+                                        <span class="text-3xl">🤔</span>
+                                    </div>
+
+                                    <div class="flex-grow relative z-10">
+                                        <h3 class="font-bold text-lg text-gray-800 leading-tight">Adivinhe a Emoção</h3>
+                                        <p class="text-xs text-gray-500 font-medium">Inteligência Emocional</p>
+                                    </div>
+                                </a>
+
+                                <a href="#"
+                                    class="game-card-link card relative w-full flex items-center p-4 rounded-3xl shadow-sm border-l-8 border-green-400 hover:bg-green-50 transition-all hover:scale-[1.01] active:scale-95 group overflow-hidden"
+                                    data-game="game-guess-word-screen" data-game-id="9">
+
+                                    <div
+                                        class="absolute -right-4 top-1/2 transform -translate-y-1/2 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
+                                        <i data-lucide="spell-check" class="w-24 h-24 text-green-600"></i>
+                                    </div>
+
+                                    <div
+                                        class="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center mr-4 shadow-inner flex-shrink-0 relative z-10">
+                                        <span class="text-3xl">🔤</span>
+                                    </div>
+
+                                    <div class="flex-grow relative z-10">
+                                        <h3 class="font-bold text-lg text-gray-800 leading-tight">Adivinhe a Palavra
+                                        </h3>
+                                        <p class="text-xs text-gray-500 font-medium">Literacia e Vocabulário</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </section>
+
+                        <div class="h-6"></div>
+                    </main>
+                </div>
+
+
+                <div id="communication-screen" class="screen hidden h-full flex flex-col">
+                    <header class="p-4 pt-12 px-6 flex items-center justify-center flex-shrink-0">
+                        <h1 class="text-3xl font-bold tracking-tight">Comunicação</h1>
+                    </header>
+
+                    <main class="flex-grow overflow-y-auto p-6 pb-32 flex flex-col space-y-4">
+
+                        <button
+                            class="comm-menu-btn card w-full h-32 rounded-3xl shadow-md flex items-center px-6 space-x-5 transition-transform hover:scale-105 active:scale-95"
+                            data-target="caa-symbols-screen">
+                            <div
+                                class="secondary-accent-bg w-20 h-20 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <i data-lucide="messages-square" class="w-10 h-10 accent-text comm-icon-blue"></i>
+                            </div>
+                            <div class="text-left flex-grow">
+                                <h3 class="font-bold text-2xl accent-text comm-text-blue">Falar</h3>
+                                <p class="text-sm text-gray-500 font-medium">Montar frases</p>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-8 h-8 text-gray-300"></i>
+                        </button>
+
+                        <button
+                            class="comm-menu-btn card w-full h-32 rounded-3xl shadow-md flex items-center px-6 space-x-5 transition-transform hover:scale-105 active:scale-95"
+                            data-target="caa-emotions-screen">
+                            <div
+                                class="secondary-accent-bg w-20 h-20 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <i data-lucide="heart" class="w-10 h-10 accent-text comm-icon-red"></i>
+                            </div>
+                            <div class="text-left flex-grow">
+                                <h3 class="font-bold text-2xl accent-text comm-text-red">Emoções</h3>
+                                <p class="text-sm text-gray-500 font-medium">O que sinto?</p>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-8 h-8 text-gray-300"></i>
+                        </button>
+
+                        <button
+                            class="comm-menu-btn card w-full h-32 rounded-3xl shadow-md flex items-center px-6 space-x-5 transition-transform hover:scale-105 active:scale-95"
+                            data-target="alphabet-screen">
+                            <div
+                                class="secondary-accent-bg w-20 h-20 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <span class="text-3xl font-bold accent-text comm-icon-green">ABC</span>
+                            </div>
+                            <div class="text-left flex-grow">
+                                <h3 class="font-bold text-2xl accent-text comm-text-green">Alfabeto</h3>
+                                <p class="text-sm text-gray-500 font-medium">Letras e sons</p>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-8 h-8 text-gray-300"></i>
+                        </button>
+
+                        <button
+                            class="comm-menu-btn card w-full h-32 rounded-3xl shadow-md flex items-center px-6 space-x-5 transition-transform hover:scale-105 active:scale-95"
+                            data-target="numbers-screen">
+                            <div
+                                class="secondary-accent-bg w-20 h-20 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <span class="text-3xl font-bold accent-text comm-icon-yellow">123</span>
+                            </div>
+                            <div class="text-left flex-grow">
+                                <h3 class="font-bold text-2xl accent-text comm-text-yellow">Números</h3>
+                                <p class="text-sm text-gray-500 font-medium">Contar</p>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-8 h-8 text-gray-300"></i>
+                        </button>
+
+                    </main>
+                </div>
+
+                <div id="caa-symbols-screen" class="screen hidden h-full flex flex-col bg-gray-50">
+                    <header class="flex items-center justify-between p-4 pt-12 px-6 shadow-sm bg-white relative z-10">
+                        <button id="caa-back-btn" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                            <i data-lucide="arrow-left" class="w-8 h-8" style="color: var(--text-primary);"></i>
+                        </button>
+                        <h1 id="caa-screen-title" class="text-xl font-bold tracking-tight accent-text">Falar</h1>
+                        <div class="w-10"></div>
+                    </header>
+
+                    <main class="flex-grow overflow-y-auto px-6 pt-6">
+                        <div id="caa-grid-container"></div>
+                    </main>
+                </div>
+
+                <div id="caa-emotions-screen" class="screen hidden h-full flex flex-col bg-white">
+                    <header class="flex items-center justify-between p-4 pt-12 px-6">
+                        <button class="back-to-comm-menu p-2 rounded-full hover:bg-gray-100 transition-colors">
+                            <i data-lucide="arrow-left" class="w-8 h-8" style="color: var(--text-primary);"></i>
+                        </button>
+                        <h1 class="text-xl font-bold tracking-tight accent-text">O que sinto?</h1>
+                        <button id="btn-open-emotions-guide"
+                            class="p-2 rounded-full bg-blue-500 text-white shadow-md hover:bg-blue-600 transition-colors">
+                            <i data-lucide="book-open" class="w-6 h-6"></i>
+                        </button>
+                    </header>
+
+                    <main class="flex-grow overflow-y-auto px-6 pb-28">
+                        <div id="emotions-grid-view" class="pt-4">
+                            <p class="text-center text-gray-500 mb-6">Selecione como você está se sentindo agora:</p>
+                            <div id="emotions-grid-container" class="grid grid-cols-2 gap-4">
+                            </div>
+                        </div>
+
+                        <div id="emotion-detail-view" class="hidden flex flex-col items-center pt-4 text-center h-full">
+                            <div id="detail-emoji" class="text-8xl mb-4 animate-bounce-slow">😊</div>
+                            <h2 id="detail-name" class="text-3xl font-bold accent-text mb-2">Feliz</h2>
+                            <p id="detail-desc" class="text-gray-600 mb-8 px-4">Descrição do sentimento...</p>
+
+                            <div class="w-full bg-blue-50 rounded-2xl p-6 mb-6 text-left">
+                                <h3 class="font-bold text-gray-700 mb-3 flex items-center">
+                                    <i data-lucide="sparkles" class="w-5 h-5 mr-2 text-yellow-500"></i>
+                                    O que posso fazer?
+                                </h3>
+                                <ul id="detail-coping" class="space-y-3 text-sm text-gray-600">
+                                </ul>
+                            </div>
+
+                            <button id="btn-close-emotion-detail"
+                                class="mt-auto mb-4 w-full py-4 rounded-xl bg-gray-100 font-bold text-gray-600 hover:bg-gray-200">
+                                Escolher outro sentimento
+                            </button>
+                        </div>
+                    </main>
+                </div>
+                <div id="emotions-guide-screen" class="screen hidden h-full flex flex-col bg-gray-50">
+                    <header
+                        class="p-4 pt-12 px-6 shadow-sm bg-white relative z-10 flex items-center justify-between border-b border-gray-200">
+                        <button id="guide-back-btn" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                            <i data-lucide="arrow-left" class="w-6 h-6 text-gray-600"></i>
+                        </button>
+                        <h1 class="text-xl font-bold tracking-tight text-gray-800 flex items-center">
+                            <i data-lucide="graduation-cap" class="w-5 h-5 mr-2 text-blue-600"></i> Apoio para o Adulto
+                        </h1>
+                        <div class="w-6"></div>
+                    </header>
+
+                    <div class="flex-grow overflow-y-auto p-6 space-y-6 text-gray-700">
+
+                        <div class="card p-4 rounded-xl border border-blue-200 shadow-md">
+                            <h3 class="font-bold text-base text-blue-800 mb-3 flex items-center">
+                                <i data-lucide="message-square" class="w-5 h-5 mr-2"></i> Perguntas para a Criança:
+                            </h3>
+                            <ul class="text-sm list-decimal list-inside space-y-2 pl-4">
+                                <li>Qual emoção você ESCOLHEU?</li>
+                                <li>Você já sentiu isso alguma vez?</li>
+                                <li>O que aconteceu? Por que se sentiu assim?</li>
+                                <li>O que você fez quando sentiu isso?</li>
+                            </ul>
+                        </div>
+
+                        <div class="card p-4 rounded-xl border border-yellow-200 shadow-md">
+                            <h3 class="font-bold text-base text-yellow-800 mb-3 flex items-center">
+                                <i data-lucide="zap" class="w-5 h-5 mr-2"></i> Sugestão de Uso:
+                            </h3>
+                            <ul class="text-sm list-disc list-inside space-y-2 pl-4">
+                                <li>Consulte a Tabela das Emoções. Diga à criança o nome da emoção, dê uma explicação
+                                    simples e sugestões de como lidar.</li>
+                                <li>Repita com novas emoções ao longo da semana.</li>
+                                <li>Pode ser usado na rotina diária, roda de conversa, cantinho das emoções ou momentos
+                                    de acolhimento individual.</li>
+                            </ul>
+                        </div>
+
+                        <div class="text-xs text-gray-500 italic pt-4">
+                            <p>Use a Tabela como referência para trabalhar educação emocional. Cada emoção
+                                está descrita com uma explicação simples e sugestões práticas de como lidar com ela de
+                                forma saudável.</p>
+                        </div>
+
+                        <div class="h-8"></div>
+                    </div>
+                </div>
+
+
+
+                <div id="alphabet-screen" class="screen hidden h-full flex flex-col">
+                    <header class="flex items-center justify-between p-4 pt-12 px-6 shadow-sm bg-white relative z-10">
+                        <button class="back-to-comm-menu p-2 rounded-full hover:bg-gray-100 transition-colors">
+                            <i data-lucide="arrow-left" class="w-8 h-8" style="color: var(--text-primary);"></i>
+                        </button>
+                        <h1 class="text-2xl font-bold tracking-tight accent-text">Alfabeto</h1>
+                        <div class="w-10"></div>
+                    </header>
+                    <main class="flex-grow overflow-y-auto px-6 pb-28 pt-6 bg-gray-50">
+                        <div id="alphabet-grid" class="grid grid-cols-4 gap-4"></div>
+                    </main>
+                </div>
+
+                <div id="numbers-screen" class="screen hidden h-full flex flex-col">
+                    <header class="flex items-center justify-between p-4 pt-12 px-6 shadow-sm bg-white relative z-10">
+                        <button class="back-to-comm-menu p-2 rounded-full hover:bg-gray-100 transition-colors">
+                            <i data-lucide="arrow-left" class="w-8 h-8" style="color: var(--text-primary);"></i>
+                        </button>
+                        <h1 class="text-2xl font-bold tracking-tight accent-text">Números</h1>
+                        <div class="w-10"></div>
+                    </header>
+                    <main class="flex-grow overflow-y-auto px-6 pb-28 pt-6 bg-gray-50">
+                        <div id="numbers-grid" class="grid grid-cols-4 gap-4"></div>
+                    </main>
+                </div>
+
+                <div id="reports-screen" class="screen hidden h-full flex flex-col">
+
+                    <div id="reports-hub" class="h-full flex flex-col">
+                        <header class="p-4 pt-12 px-6 flex items-center justify-center">
+                            <h1 class="text-3xl font-bold tracking-tight">Relatórios</h1>
+                        </header>
+                        <main class="flex-grow w-full p-6 pb-28 overflow-hidden">
+                            <div class="grid grid-cols-1 grid-rows-2 gap-6 h-full w-full">
+                                <button
+                                    class="report-menu-btn card w-full h-full rounded-3xl shadow-md flex flex-col items-center justify-center p-4 transition-transform hover:scale-105 active:scale-95"
+                                    data-target="reports-games-view">
+                                    <div
+                                        class="secondary-accent-bg w-24 h-24 rounded-2xl flex items-center justify-center mb-2 shadow-inner">
+                                        <i data-lucide="gamepad-2" class="w-12 h-12 accent-text comm-icon-blue"></i>
+                                    </div>
+                                    <h3 class="font-bold text-3xl accent-text comm-text-blue">Jogos</h3>
+                                </button>
+                                <button
+                                    class="report-menu-btn card w-full h-full rounded-3xl shadow-md flex flex-col items-center justify-center p-4 transition-transform hover:scale-105 active:scale-95"
+                                    data-target="reports-comm-view">
+                                    <div
+                                        class="secondary-accent-bg w-24 h-24 rounded-2xl flex items-center justify-center mb-2 shadow-inner">
+                                        <i data-lucide="messages-square"
+                                            class="w-12 h-12 accent-text comm-icon-green"></i>
+                                    </div>
+                                    <h3 class="font-bold text-3xl accent-text comm-text-green">Comunicação</h3>
+                                </button>
+                            </div>
+                        </main>
+                    </div>
+
+                    <div id="reports-games-view" class="hidden h-full flex flex-col">
+                        <header class="flex items-center justify-between p-4 pt-12 px-6 shadow-sm bg-white z-10">
+                            <button class="back-to-reports-hub p-2 rounded-full hover:bg-gray-100 transition-colors">
+                                <i data-lucide="arrow-left" class="w-8 h-8 accent-text"></i>
+                            </button>
+                            <h1 class="text-xl font-bold accent-text">Jogos</h1>
+                            <div class="w-10"></div>
+                        </header>
+
+                        <main class="flex-grow overflow-y-auto px-6 pb-28 pt-4 space-y-4">
+                            <div class="card p-4 rounded-2xl shadow-md">
+                                <label class="text-xs font-medium block mb-1"
+                                    style="color: var(--text-secondary);">Filtrar por:</label>
+                                <select id="report-games-filter"
+                                    class="w-full p-2 border rounded-lg text-sm bg-transparent outline-none"
+                                    style="border-color: var(--border-color); color: var(--text-primary);">
+                                    <option value="geral">Visão Geral</option>
+                                    <option value="combine">Combine as Formas</option>
+                                    <option value="connect">Ligue os Pontos</option>
+                                    <option value="numbers">Ligue os Números</option>
+                                    <option value="puzzle">Quebra-Cabeça</option>
+                                    <option value="sequence">Sequência de Cores</option>
+                                    <option value="emotion">Adivinhe a Emoção</option>
+                                    <option value="color">Adivinhe a Cor</option>
+                                    <option value="sound">Adivinhe o Som</option>
+                                    <option value="guess-word">Adivinhe a Palavra</option>
+                                </select>
+                            </div>
+
+                            <div id="report-games-general" class="space-y-4">
+                            </div>
+
+                            <div id="report-games-detail" class="hidden space-y-4">
+                            </div>
+                        </main>
+                    </div>
+
+                    <div id="reports-comm-view" class="hidden h-full flex flex-col bg-gray-50">
+                        <header
+                            class="flex items-center justify-between p-4 pt-12 px-6 shadow-sm bg-white z-10 border-b border-gray-200">
+                            <button class="back-to-reports-hub p-2 rounded-full hover:bg-gray-100 transition-colors">
+                                <i data-lucide="arrow-left" class="w-8 h-8 accent-text"></i>
+                            </button>
+                            <h1 class="text-xl font-bold accent-text">Relatório de Fala</h1>
+                            <div class="w-10"></div>
+                        </header>
+
+                        <main class="flex-grow overflow-y-auto px-6 pb-32 pt-6">
+
+                            <div class="card p-4 rounded-2xl shadow-sm bg-white mb-6 border border-gray-100">
+                                <label
+                                    class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2 block">Período
+                                    de Análise</label>
+                                <div class="relative">
+                                    <select id="report-comm-filter"
+                                        class="w-full p-3 bg-gray-50 rounded-xl font-semibold text-gray-700 outline-none border border-gray-200 appearance-none focus:border-blue-400 transition-colors">
+                                        <option value="visão geral">Visão Geral (Tudo)</option>
+                                        <option value="semanal">Últimos 7 dias</option>
+                                        <option value="mensal">Últimos 30 dias</option>
+                                    </select>
+                                    <div class="absolute right-3 top-3.5 pointer-events-none text-gray-500">
+                                        <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="report-comm-content" class="space-y-6 animate-fade-in">
+                            </div>
+
+                            <div class="h-8"></div>
+                        </main>
+                    </div>
+                </div>
+
+
+                <div id="game-combine-shapes-wrapper"
+                    class="screen hidden h-full flex flex-col relative overflow-hidden z-20 bg-slate-50">
+
+                    <ul class="bg-floating-shapes">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+
+                    <div id="shape-game-menu" class="relative z-10 h-full flex flex-col">
+                        <header class="flex items-start justify-between p-4 pt-12 px-6">
+                            <button onclick="ShapeLogic.goBack()"
+                                class="p-2 rounded-full bg-white/80 shadow-md hover:bg-white transition-colors border border-gray-100">
+                                <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
+                            </button>
+
+                            <div class="flex flex-col items-center justify-center space-y-3">
+                                <div class="text-center text-gray-500 text-sm font-medium">
+                                    <h1 class="text-xl font-bold tracking-tight text-gray-800">COMBINE</h1>
+                                    <span class="block font-black text-4xl text-blue-600" id="shape-menu-score">0</span>
+                                    <span class="block text-xs font-semibold uppercase tracking-wider">Pontos</span>
+                                </div>
+
+                                <div class="flex space-x-2">
+                                    <div
+                                        class="flex items-center space-x-1 bg-white/80 px-3 py-1 rounded-full shadow-md border border-yellow-300">
+                                        <span class="text-yellow-500">⭐</span>
+                                        <span id="shape-total-stars" class="font-bold text-gray-700">0</span>
+                                    </div>
+                                    <div
+                                        class="flex items-center space-x-1 bg-white/80 px-3 py-1 rounded-full shadow-md border border-green-300">
+                                        <span class="text-xl">🗺️</span>
+                                        <span id="shape-total-maps" class="font-bold text-gray-700">0</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button onclick="showHelpModal('combine')"
+                                class="p-2 rounded-full bg-white/80 shadow-md hover:bg-white transition-colors border border-gray-100">
+                                <i data-lucide="help-circle" class="w-6 h-6 text-blue-500"></i>
+                            </button>
+                        </header>
+
+                        <main class="flex-grow flex flex-col items-center justify-start px-6 space-y-6 pt-6 pb-28">
+                            <div
+                                class="card w-full p-6 rounded-3xl shadow-lg bg-white border-l-8 border-blue-500 animate-fade-in">
+                                <h2 class="text-sm font-bold text-gray-400 uppercase mb-2">Sua Jornada</h2>
+                                <div class="flex items-center space-x-4 mb-4">
+                                    <div
+                                        class="text-5xl bg-blue-50 p-3 rounded-2xl flex items-center justify-center w-20 h-20">
+                                        <span id="shape-menu-world-icon" class="block">🚀</span>
+                                    </div>
+                                    <div>
+                                        <h3 id="shape-menu-world-title"
+                                            class="text-2xl font-bold text-gray-800 leading-tight">Carregando...</h3>
+                                        <p class="text-sm text-gray-500 font-medium">Modo História</p>
+                                    </div>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-4 overflow-hidden shadow-inner">
+                                    <div id="shape-menu-progress-bar"
+                                        class="bg-blue-500 h-full rounded-full transition-all duration-1000 shadow-sm"
+                                        style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <div class="w-full space-y-4">
+                                <button onclick="ShapeLogic.startJourney()"
+                                    class="w-full py-4 bg-blue-600 text-white rounded-2xl font-bold text-xl shadow-lg shadow-blue-200 hover:scale-105 transition-transform flex items-center justify-center space-x-2">
+                                    <i data-lucide="map" class="w-6 h-6"></i>
+                                    <span>Continuar Jornada</span>
+                                </button>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <button onclick="ShapeLogic.startFreeMode()"
+                                        class="py-4 bg-white text-blue-600 border-2 border-blue-100 rounded-2xl font-bold shadow-sm hover:border-blue-300 transition-colors">
+                                        Modo Livre
+                                    </button>
+                                    <button onclick="ShapeLogic.startRandomMode()"
+                                        class="py-4 bg-purple-100 text-purple-700 rounded-2xl font-bold shadow-sm hover:bg-purple-200 transition-colors">
+                                        Aleatório
+                                    </button>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+
+                    <div id="shape-free-mode-selector" class="relative z-10 h-full flex flex-col hidden">
+                        <header
+                            class="flex items-center justify-between p-4 pt-12 px-6 shadow-sm bg-white relative z-10">
+                            <button onclick="ShapeLogic.renderMainMenu()"
+                                class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                                <i data-lucide="arrow-left" class="w-8 h-8 text-gray-700"></i>
+                            </button>
+                            <h1 class="text-xl font-bold tracking-tight accent-text">Modo Livre</h1>
+                            <div class="w-10"></div>
+                        </header>
+                        <main class="flex-grow overflow-y-auto px-6 pb-28 pt-6">
+                            <div id="free-mode-shapes-grid" class="grid grid-cols-1 gap-4"></div>
+                        </main>
+                    </div>
+
+                    <div id="shape-game-map" class="relative z-10 h-full flex flex-col hidden bg-slate-100">
+                        <header
+                            class="p-6 pt-12 flex items-center justify-between bg-white shadow-sm z-20 rounded-b-3xl">
+                            <button onclick="ShapeLogic.goBack()"
+                                class="p-2 rounded-full bg-slate-100 hover:bg-slate-200">
+                                <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
+                            </button>
+                            <h1 class="text-lg font-bold text-gray-800 uppercase tracking-wide" id="shape-map-title">
+                                Mapa
+                            </h1>
+                            <div class="w-10"></div>
+                        </header>
+                        <main class="flex-grow overflow-y-auto p-6 pb-32">
+                            <div id="shape-levels-grid" class="grid grid-cols-2 gap-4 auto-rows-fr"></div>
+                        </main>
+                    </div>
+
+                    <div id="game-combine-shapes-screen" class="relative z-10 h-full flex flex-col hidden bg-white">
+                        <header class="flex items-center justify-between p-4 pt-12 px-6">
+                            <button onclick="ShapeLogic.goBack()"
+                                class="p-2 rounded-full bg-white/80 hover:bg-gray-200/50 transition-colors border border-gray-100 shadow-sm">
+                                <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
+                            </button>
+                            <div
+                                class="flex items-center space-x-2 bg-white/60 px-4 py-1 rounded-full border border-white shadow-sm">
+                                <span class="text-yellow-500">⭐</span>
+                                <span id="gameplay-score" class="font-bold text-lg text-blue-600">0</span>
+                            </div>
+                            <button onclick="showHelpModal('combine')"
+                                class="p-2 rounded-full bg-white/80 hover:bg-gray-200/50 transition-colors border border-gray-100 shadow-sm">
+                                <i data-lucide="help-circle" class="w-6 h-6 accent-text"></i>
+                            </button>
+                        </header>
+
+                        <main id="shape-game-container"
+                            class="flex-grow flex flex-col items-center justify-between px-6 pb-28 transition-transform duration-700">
+                            <div class="w-full max-w-xs mb-2 mt-2">
+                                <div
+                                    class="flex justify-between text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">
+                                    <span>Progresso</span>
+                                    <span id="shape-progress-text">0/6</span>
+                                </div>
+                                <div class="game-progress-container w-full">
+                                    <div id="shape-progress-bar" class="game-progress-fill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="w-full text-center space-y-2">
+                                <div id="combine-feedback" class="game-feedback text-xl h-8 font-bold"></div>
+                            </div>
+                            <div id="shape-slots"></div>
+                            <div id="shape-pieces" class="flex justify-center flex-wrap gap-4 w-full p-4 min-h-[100px]">
+                            </div>
+                        </main>
+                    </div>
+
+                    <div id="shape-level-up-popup"
+                        class="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
+                        <div
+                            class="bg-white w-4/5 max-w-sm rounded-3xl p-6 shadow-2xl relative flex flex-col items-center animate-pop-in border-4 border-yellow-400">
+                            <button onclick="ShapeLogic.closePopup()"
+                                class="absolute top-3 right-3 p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-red-100 hover:text-red-500 transition-colors font-bold">
+                                <i data-lucide="x" class="w-5 h-5"></i>
+                            </button>
+                            <div class="mb-4 relative">
+                                <div
+                                    class="absolute inset-0 bg-yellow-200 rounded-full blur-xl opacity-50 animate-pulse">
+                                </div>
+                                <i data-lucide="trophy"
+                                    class="w-20 h-20 text-yellow-400 fill-yellow-400 animate-bounce-slow drop-shadow-lg relative z-10"></i>
+                            </div>
+                            <h2 id="shape-levelup-title"
+                                class="text-2xl font-black text-gray-800 mb-1 text-center uppercase">MUITO BEM!</h2>
+                            <p id="shape-levelup-msg" class="text-sm text-gray-500 mb-6 text-center font-medium">Fase
+                                concluída!</p>
+                            <div id="shape-levelup-reward"
+                                class="bg-yellow-50 p-3 rounded-xl w-full mb-6 text-center border border-yellow-100">
+                            </div>
+                            <button onclick="ShapeLogic.proceedNext()"
+                                class="w-full py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-bold text-lg shadow-lg shadow-blue-200 hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-2">
+                                <span id="shape-levelup-btn-text">Próxima Fase</span>
+                                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="game-connect-dots-screen" class="screen hidden h-full flex flex-col">
+                    <header class="flex items-center justify-between p-4 pt-12 px-6">
+                        <button class="game-back-btn p-2 rounded-full hover:bg-gray-200/50"><i data-lucide="arrow-left"
+                                class="w-6 h-6"></i></button>
+                        <h1 class="text-xl font-bold tracking-tight">Ligue os Pontos</h1>
+                        <button class="game-help-btn p-2 rounded-full hover:bg-gray-200/50" data-game="connect"><i
+                                data-lucide="help-circle" class="w-6 h-6 accent-text"></i></button>
+                    </header>
+                    <main class="flex-grow flex flex-col items-center justify-center px-6 pb-28 space-y-4">
+                        <div class="w-full text-center space-y-2">
+                            <div id="connect-dots-score" class="text-lg font-bold accent-text">Pontuação: 0</div>
+                            <div id="connect-dots-feedback" class="game-feedback text-lg h-6"></div>
+                        </div>
+                        <canvas id="connect-dots-canvas" class="rounded-2xl shadow-inner"
+                            style="background-color: var(--bg-secondary);"></canvas>
+                    </main>
+                </div>
+
+                <div id="game-connect-numbers-screen" class="screen hidden h-full flex flex-col">
+                    <header class="flex items-center justify-between p-4 pt-12 px-6">
+                        <button class="game-back-btn p-2 rounded-full hover:bg-gray-200/50"><i data-lucide="arrow-left"
+                                class="w-6 h-6"></i></button>
+                        <h1 class="text-xl font-bold tracking-tight">Ligue os Números</h1>
+                        <button class="game-help-btn p-2 rounded-full hover:bg-gray-200/50" data-game="numbers">
+                            <i data-lucide="help-circle" class="w-6 h-6 accent-text"></i>
+                        </button>
+                    </header>
+                    <main class="flex-grow flex flex-col items-center justify-center px-6 pb-28 space-y-4">
+                        <div class="w-full text-center space-y-2">
+                            <div id="connect-numbers-score" class="text-lg font-bold accent-text">Pontuação: 0</div>
+                            <div id="connect-numbers-feedback" class="game-feedback text-lg h-6"></div>
+                        </div>
+                        <canvas id="connect-numbers-canvas" class="rounded-2xl shadow-inner"
+                            style="background-color: var(--bg-secondary);"></canvas>
+                    </main>
+                </div>
+
+                <div id="game-puzzle-screen" class="screen hidden h-full flex flex-col">
+                    <header class="flex items-center justify-between p-4 pt-12 px-6">
+                        <button class="game-back-btn p-2 rounded-full hover:bg-gray-200/50"><i data-lucide="arrow-left"
+                                class="w-6 h-6"></i></button>
+                        <h1 class="text-xl font-bold tracking-tight">Quebra-Cabeça</h1>
+                        <button class="game-help-btn p-2 rounded-full hover:bg-gray-200/50" data-game="puzzle"><i
+                                data-lucide="help-circle" class="w-6 h-6 accent-text"></i></button>
+                    </header>
+                    <main class="flex-grow flex flex-col items-center justify-around px-6 pb-28">
+                        <div class="w-full text-center space-y-2">
+                            <div id="puzzle-score" class="text-lg font-bold accent-text">Pontuação: 0</div>
+                            <div id="puzzle-feedback" class="game-feedback text-lg h-6"></div>
+                        </div>
+                        <div id="puzzle-slots" class="grid grid-cols-5 gap-2 w-full card p-2 rounded-lg shadow-inner">
+                        </div>
+                        <div id="puzzle-pieces"
+                            class="flex justify-center flex-wrap gap-2 w-full p-4 rounded-2xl card items-center"></div>
+                    </main>
+                </div>
+
+
+                <!-- ============================================
+                EMOTION GAME SCREEN
+                ============================================ -->
+                <div id="game-emotion-wrapper"
+                    class="screen hidden h-full flex flex-col relative overflow-hidden z-20 bg-gray-50">
+
+                    <div id="emotion-game-menu" class="relative z-10 h-full flex flex-col">
+                        <header class="flex items-start justify-between p-4 pt-12 px-6">
+                            <button onclick="EmotionLogic.goBack()"
+                                class="p-2 rounded-full bg-white/80 shadow-md hover:bg-white transition-colors border border-gray-100">
+                                <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
+                            </button>
+
+                            <div class="flex flex-col items-center justify-center space-y-3">
+                                <div class="text-center text-gray-500 text-sm font-medium">
+                                    <h1 class="text-xl font-bold tracking-tight">EMOÇÕES</h1>
+                                    <span class="block font-black text-4xl text-gray-700"
+                                        id="emotion-menu-score">0</span>
+                                    <span class="block text-xs font-semibold uppercase tracking-wider">Pontos</span>
+                                </div>
+                                <div
+                                    class="flex items-center space-x-1 bg-white/80 px-3 py-1 rounded-full shadow-md border border-green-300">
+                                    <span class="text-xl">🗺️</span>
+                                    <span id="emotion-menu-maps" class="font-bold text-gray-700">0</span>
+                                </div>
+                            </div>
+
+                            <button onclick="showHelpModal('emotion')"
+                                class="p-2 rounded-full bg-white/80 shadow-md hover:bg-white transition-colors border border-gray-100">
+                                <i data-lucide="help-circle" class="w-6 h-6 text-blue-500"></i>
+                            </button>
+                        </header>
+
+                        <main class="flex-grow flex flex-col items-center justify-start px-6 space-y-6 pt-6 pb-28">
+                            <div id="emotion-menu-card"
+                                class="card w-full p-6 rounded-3xl shadow-lg bg-white border-l-8 border-yellow-500 animate-fade-in">
+                                <h2 class="text-sm font-bold text-gray-400 uppercase mb-2">Nível Atual</h2>
+                                <div class="flex items-center space-x-4 mb-4">
+                                    <div id="emotion-menu-world-icon-bg"
+                                        class="text-5xl bg-yellow-50 p-3 rounded-2xl flex items-center justify-center w-20 h-20">
+                                        <span id="emotion-menu-world-icon" class="block">🙂</span>
+                                    </div>
+                                    <div>
+                                        <h3 id="emotion-menu-world-title"
+                                            class="text-2xl font-bold text-gray-800 leading-tight">Carregando...</h3>
+                                        <p class="text-sm text-gray-500 font-medium">Jornada Guiada</p>
+                                    </div>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-4 overflow-hidden shadow-inner">
+                                    <div id="emotion-menu-progress-bar"
+                                        class="bg-yellow-500 h-full rounded-full transition-all duration-1000 shadow-sm"
+                                        style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <div class="w-full space-y-3">
+                                <button id="emotion-menu-main-btn" onclick="EmotionLogic.startJourney()"
+                                    class="w-full py-4 bg-yellow-500 text-white rounded-2xl font-bold text-xl shadow-lg shadow-yellow-200 hover:scale-105 transition-transform flex items-center justify-center space-x-2">
+                                    <i data-lucide="map" class="w-6 h-6"></i>
+                                    <span>Continuar</span>
+                                </button>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button onclick="EmotionLogic.startRandomMode()"
+                                        class="py-4 bg-purple-100 text-purple-700 rounded-2xl font-bold shadow-sm hover:bg-purple-200 transition-colors">
+                                        <span>Aleatório</span>
+                                    </button>
+
+                                    <button onclick="EmotionLogic.renderAlbum()"
+                                        class="py-4 bg-white text-teal-600 border-2 border-teal-100 rounded-2xl font-bold shadow-sm hover:bg-teal-50 transition-colors flex flex-col items-center justify-center">
+                                        <i data-lucide="book-open" class="w-6 h-6 mb-1"></i>
+                                        <span>Álbum</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+
+                    <div id="emotion-game-map" class="relative z-10 h-full flex flex-col hidden bg-white">
+                        <header
+                            class="p-6 pt-12 flex items-center justify-between bg-white/80 backdrop-blur-md shadow-sm z-20 sticky top-0">
+                            <button onclick="EmotionLogic.goBack()"
+                                class="p-2 rounded-full bg-white shadow hover:bg-gray-100">
+                                <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
+                            </button>
+                            <h1 class="text-lg font-bold text-gray-800 uppercase tracking-wide bg-white px-4 py-1 rounded-full shadow-sm"
+                                id="emotion-map-world-title">Mapa</h1>
+                            <div class="w-10"></div>
+                        </header>
+
+                        <main class="flex-grow overflow-y-auto p-6 pb-32 relative">
+                            <div
+                                class="absolute left-1/2 top-0 bottom-0 w-1 bg-white/50 -translate-x-1/2 z-0 border-l-2 border-dashed border-gray-300/50">
+                            </div>
+                            <div id="emotion-map-grid" class="relative z-10 flex flex-col items-center pt-8 space-y-4">
+                            </div>
+                        </main>
+
+                        <div
+                            class="absolute bottom-0 w-full p-4 pb-8 flex justify-between items-center z-30 pointer-events-none">
+                            <button onclick="EmotionLogic.changeWorld(-1)"
+                                class="pointer-events-auto p-3 rounded-full bg-white shadow-lg hover:scale-110 transition-transform text-gray-700"><i
+                                    data-lucide="chevron-left" class="w-8 h-8"></i></button>
+                            <button onclick="EmotionLogic.changeWorld(1)"
+                                class="pointer-events-auto p-3 rounded-full bg-white shadow-lg hover:scale-110 transition-transform text-gray-700"><i
+                                    data-lucide="chevron-right" class="w-8 h-8"></i></button>
+                        </div>
+                    </div>
+
+                    <div id="emotion-game-album" class="relative z-10 h-full flex flex-col hidden bg-gray-50">
+                        <header class="p-4 pt-12 flex items-center justify-between bg-white shadow-sm z-20">
+                            <button onclick="EmotionLogic.renderMainMenu()"
+                                class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                                <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
+                            </button>
+                            <h1 class="text-lg font-bold text-teal-600 uppercase tracking-wide">Coleção</h1>
+                            <div class="w-10"></div>
+                        </header>
+                        <main class="flex-grow overflow-y-auto p-6 pb-32">
+                            <p class="text-center text-xs text-gray-400 mb-4">Desbloqueie emoções jogando os níveis!</p>
+                            <div id="emotion-album-grid" class="grid grid-cols-2 gap-3">
+                            </div>
+                        </main>
+                    </div>
+
+                    <div id="emotion-game-play" class="relative z-10 h-full flex flex-col hidden bg-gray-50">
+                        <header class="flex items-center justify-between p-4 pt-12 px-6">
+                            <button onclick="EmotionLogic.goBack()"
+                                class="p-2 rounded-full bg-white hover:bg-gray-100 transition-colors shadow-sm">
+                                <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
+                            </button>
+
+                            <div
+                                class="flex items-center space-x-2 bg-white px-4 py-1 rounded-full border border-gray-200 shadow-sm">
+                                <span class="text-yellow-500 fill-yellow-500">⭐</span>
+                                <span class="text-gray-400 text-xs font-bold uppercase mr-1">Pontuação:</span>
+                                <span id="emotion-gameplay-score" class="font-black text-lg text-blue-600">0</span>
+                            </div>
+
+                            <button onclick="showHelpModal('emotion')"
+                                class="p-2 rounded-full bg-white hover:bg-gray-100 transition-colors shadow-sm">
+                                <i data-lucide="help-circle" class="w-6 h-6 text-blue-400"></i>
+                            </button>
+                        </header>
+
+                        <main class="flex-grow flex flex-col items-center px-6 pb-8 pt-4 w-full max-w-md mx-auto">
+
+                            <div id="emotion-progress-section" class="w-full mb-6">
+                                <div
+                                    class="flex justify-between text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">
+                                    <span>Meta do Nível</span>
+                                    <span id="emotion-gameplay-progress-text">1 de 5</span>
+                                </div>
+                                <div class="w-full h-6 bg-gray-300 rounded-full overflow-hidden shadow-inner mt-1">
+                                    <div id="emotion-gameplay-progress-bar"
+                                        class="bg-blue-500 h-full rounded-full transition-all duration-500"
+                                        style="width: 10%"></div>
+                                </div>
+                            </div>
+
+                            <div class="flex-grow flex flex-col items-center justify-center mb-6">
+                                <div class="relative">
+                                    <div class="absolute inset-0 bg-white rounded-full blur-2xl opacity-60 scale-150">
+                                    </div>
+                                    <div id="emotion-gameplay-main-emoji"
+                                        class="text-9xl relative z-10 select-none filter drop-shadow-xl cursor-pointer">
+                                        🙂</div>
+                                </div>
+                                <div id="emotion-gameplay-feedback" class="h-8 mt-4 text-center font-bold text-lg">
+                                </div>
+                            </div>
+
+                            <div id="emotion-gameplay-options-grid" class="w-full flex flex-col gap-3">
+                            </div>
+
+                        </main>
+                    </div>
+
+                    <div id="emotion-level-up-popup"
+                        class="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
+                        <div
+                            class="bg-white w-4/5 max-w-sm rounded-3xl p-6 shadow-2xl relative flex flex-col items-center animate-pop-in border-4 border-yellow-400">
+
+                            <button onclick="EmotionLogic.closeLevelUpPopup()"
+                                class="absolute top-4 right-4 p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors">
+                                <i data-lucide="x" class="w-5 h-5"></i>
+                            </button>
+
+                            <div class="mb-4 relative mt-2">
+                                <div
+                                    class="absolute inset-0 bg-yellow-200 rounded-full blur-xl opacity-50 animate-pulse">
+                                </div>
+                                <i data-lucide="star"
+                                    class="w-20 h-20 text-yellow-400 fill-yellow-400 animate-bounce-slow drop-shadow-lg relative z-10"></i>
+                                <div class="absolute -top-2 -right-2 text-xl animate-spin-slow">✨</div>
+                                <div class="absolute bottom-0 -left-2 text-xl animate-spin-slow"
+                                    style="animation-delay: 0.5s">✨</div>
+                            </div>
+
+                            <h2 class="text-2xl font-black text-gray-800 mb-1 text-center uppercase">INCRÍVEL!</h2>
+                            <p class="text-sm text-gray-500 mb-6 text-center font-medium">Você completou a jornada!</p>
+
+                            <div class="bg-yellow-50 p-4 rounded-2xl w-full mb-6 text-center border border-yellow-100">
+                                <span
+                                    class="text-xs font-bold text-yellow-600 uppercase tracking-wider">RECOMPENSA</span>
+                                <div
+                                    class="text-xl font-bold text-yellow-700 flex items-center justify-center gap-2 mt-1">
+                                    <span class="text-2xl">🗺️</span> +1 Mapa
+                                </div>
+                            </div>
+
+                            <button onclick="EmotionLogic.proceedToNextWorld()"
+                                class="w-full py-4 bg-blue-600 text-white rounded-xl font-bold text-lg shadow-lg shadow-blue-200 hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-2">
+                                <span>Próxima Jornada</span>
+                                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="game-guess-color-screen" class="screen hidden h-full flex flex-col">
+                    <header class="flex items-center justify-between p-4 pt-12 px-6">
+                        <button class="game-back-btn p-2 rounded-full hover:bg-gray-200/50">
+                            <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                        </button>
+                        <h1 class="text-xl font-bold tracking-tight">Adivinhe a Cor</h1>
+                        <button class="game-help-btn p-2 rounded-full hover:bg-gray-200/50" data-game="color">
+                            <i data-lucide="help-circle" class="w-6 h-6 accent-text"></i>
+                        </button>
+                    </header>
+                    <main class="flex-grow flex flex-col items-center justify-center px-6 pb-28 space-y-8">
+                        <div id="color-score" class="text-lg font-bold accent-text">Pontuação: 0</div>
+                        <div id="color-display-box" class="card"></div>
+                        <div id="color-guess-feedback" class="game-feedback text-lg"></div>
+                        <div id="color-options" class="grid grid-cols-1 gap-4 w-full max-w-xs">
+                        </div>
+                    </main>
+                </div>
+
+                <div id="game-color-sequence-screen" class="screen hidden h-full flex flex-col">
+                    <header class="flex items-center justify-between p-4 pt-12 px-6">
+                        <button class="game-back-btn p-2 rounded-full hover:bg-gray-200/50"><i data-lucide="arrow-left"
+                                class="w-6 h-6"></i></button>
+                        <h1 class="text-xl font-bold tracking-tight">Sequência de Cores</h1>
+                        <button class="game-help-btn p-2 rounded-full hover:bg-gray-200/50" data-game="sequence">
+                            <i data-lucide="help-circle" class="w-6 h-6 accent-text"></i>
+                        </button>
+                    </header>
+                    <main class="flex-grow flex flex-col items-center justify-center px-6 pb-28 space-y-4">
+                        <div class="w-full text-center space-y-2">
+                            <div id="sequence-progress" class="text-lg font-bold accent-text">Nível 1 de 2</div>
+                            <div id="sequence-score" class="text-lg font-bold accent-text">Pontuação: 0</div>
+                            <div id="sequence-feedback" class="game-feedback text-lg h-6"></div>
+                        </div>
+                        <div class="card p-3 rounded-xl shadow-inner">
+                            <p class="text-xs font-semibold text-center mb-2" style="color: var(--text-secondary);">
+                                GABARITO</p>
+                            <div id="sequence-goal-grid" class="grid grid-cols-4 gap-2">
+                            </div>
+                        </div>
+                        <div id="sequence-slots-grid" class="grid grid-cols-4 gap-4 w-full p-4 rounded-2xl card">
+                        </div>
+                        <div id="sequence-piece-container"
+                            class="flex justify-center flex-wrap gap-3 w-full p-4 rounded-2xl card">
+                        </div>
+                    </main>
+                </div>
+
+                <div id="game-sound-screen" class="screen hidden h-full flex flex-col relative overflow-hidden">
+
+                    <ul class="bg-floating-shapes">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+
+                    <div id="sound-game-menu" class="relative z-10 h-full flex flex-col">
+                        <header class="flex items-start justify-between p-4 pt-12 px-6">
+                            <button onclick="SoundLogic.goBack()"
+                                class="p-2 rounded-full bg-white/80 shadow-md hover:bg-white transition-colors"><i
+                                    data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i></button>
+
+                            <div class="flex flex-col items-center justify-center space-y-3">
+                                <div class="text-center text-gray-500 text-sm font-medium">
+                                    <h1 class="text-xl font-bold tracking-tight text-gray-800">ADIVINHE O SOM</h1>
+                                    <span class="block font-black text-4xl accent-text" id="sound-menu-score">0</span>
+                                    <span class="block text-xs font-semibold uppercase tracking-wider">Pontuação
+                                        Total</span>
+                                </div>
+                                <button onclick="showScreen('achievements-screen')"
+                                    class="flex items-center space-x-1 bg-white/80 px-3 py-1 rounded-full shadow-md border border-yellow-300 hover:bg-yellow-50 transition-colors">
+                                    <span class="text-yellow-500">⭐</span>
+                                    <span id="sound-menu-stars" class="font-bold text-gray-700">0</span>
+                                    <i data-lucide="chevron-right" class="w-4 h-4 text-gray-500"></i>
+                                </button>
+                            </div>
+
+                            <button onclick="showHelpModal('sound')"
+                                class="p-2 rounded-full bg-white/80 shadow-md hover:bg-white transition-colors">
+                                <i data-lucide="help-circle" class="w-6 h-6 accent-text"></i>
+                            </button>
+                        </header>
+
+                        <main class="flex-grow flex flex-col items-center justify-start px-6 space-y-6 pt-6 pb-28">
+
+                            <div
+                                class="card w-full p-6 rounded-3xl shadow-lg bg-white border-l-8 border-blue-500 animate-fade-in">
+                                <h2 class="text-sm font-bold text-gray-400 uppercase mb-2">Mundo Atual</h2>
+                                <div class="flex items-center space-x-4 mb-4">
+                                    <span id="sound-menu-world-icon" class="text-5xl">🦁</span>
+                                    <div>
+                                        <h3 id="sound-menu-world-title" class="text-2xl font-bold text-gray-800">
+                                            Carregando...</h3>
+                                        <p class="text-sm text-gray-500">Modo Jornada</p>
+                                    </div>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-4 overflow-hidden">
+                                    <div id="sound-menu-progress-bar"
+                                        class="bg-blue-500 h-full rounded-full transition-all duration-1000"
+                                        style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <div class="w-full space-y-4">
+                                <button onclick="SoundLogic.startJourney()"
+                                    class="w-full py-4 bg-blue-600 text-white rounded-2xl font-bold text-xl shadow-lg shadow-blue-200 hover:scale-105 transition-transform flex items-center justify-center space-x-2">
+                                    <i data-lucide="map" class="w-6 h-6"></i>
+                                    <span>Continuar Jornada</span>
+                                </button>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <button onclick="SoundLogic.startFreeMode()"
+                                        class="py-4 bg-white text-blue-600 border-2 border-blue-100 rounded-2xl font-bold shadow-sm hover:border-blue-300 transition-colors">
+                                        Modo Livre
+                                    </button>
+                                    <button onclick="SoundLogic.startRandomMode()"
+                                        class="py-4 bg-purple-100 text-purple-700 rounded-2xl font-bold shadow-sm hover:bg-purple-200 transition-colors">
+                                        Aleatório
+                                    </button>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+
+                    <div id="sound-game-map" class="relative z-10 h-full flex flex-col hidden">
+                        <div
+                            class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/90 to-transparent z-20 pointer-events-none">
+                        </div>
+
+                        <header class="absolute top-0 w-full flex items-center justify-between p-4 pt-12 px-6 z-30">
+                            <button onclick="SoundLogic.goBack()"
+                                class="p-2 rounded-full bg-white shadow-md hover:bg-gray-50"><i data-lucide="arrow-left"
+                                    class="w-6 h-6 text-gray-700"></i></button>
+                            <h1 id="map-world-title"
+                                class="text-xl font-bold tracking-tight text-gray-800 bg-white/80 px-4 py-1 rounded-full backdrop-blur-sm shadow-sm">
+                                Mundo</h1>
+                            <button onclick="showHelpModal('sound')"
+                                class="p-2 rounded-full bg-white shadow-md hover:bg-gray-50">
+                                <i data-lucide="help-circle" class="w-6 h-6 accent-text"></i>
+                            </button>
+                        </header>
+
+                        <div class="map-container flex-grow overflow-y-auto relative">
+                            <div id="map-svg-container" class="w-full absolute top-0 left-0 z-0"></div>
+                            <div id="map-nodes-layer" class="w-full absolute top-0 left-0 z-10"></div>
+                        </div>
+
+                        <div
+                            class="absolute bottom-0 w-full p-4 pb-8 flex justify-between items-center z-30 pointer-events-none">
+                            <button id="map-prev-world-btn" onclick="SoundLogic.changeWorld(-1)"
+                                class="pointer-events-auto p-3 rounded-full bg-white shadow-lg hover:scale-110 transition-transform text-gray-700"><i
+                                    data-lucide="chevron-left" class="w-8 h-8"></i></button>
+                            <button id="map-next-world-btn" onclick="SoundLogic.changeWorld(1)"
+                                class="pointer-events-auto p-3 rounded-full bg-white shadow-lg hover:scale-110 transition-transform text-gray-700"><i
+                                    data-lucide="chevron-right" class="w-8 h-8"></i></button>
+                        </div>
+                    </div>
+
+                    <div id="sound-game-play"
+                        class="relative z-10 h-full flex flex-col hidden bg-white/50 backdrop-blur-sm">
+                        <header class="flex items-center justify-between p-4 pt-12 px-6">
+                            <button onclick="SoundLogic.goBack()"
+                                class="p-2 rounded-full bg-white/80 hover:bg-gray-200/50 transition-colors"><i
+                                    data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i></button>
+
+                            <div
+                                class="flex items-center space-x-2 bg-white/60 px-4 py-1 rounded-full border border-white shadow-sm">
+                                <span class="text-yellow-500">⭐</span>
+                                <span id="gameplay-score" class="font-bold text-lg text-blue-600">0</span>
+                            </div>
+
+                            <button id="gameplay-help-btn" onclick="showHelpModal('sound')"
+                                class="p-2 rounded-full bg-white/80 hover:bg-gray-200/50 transition-colors"><i
+                                    data-lucide="help-circle" class="w-6 h-6 accent-text"></i></button>
+                        </header>
+
+                        <main class="flex-grow flex flex-col items-center px-6 pb-28 pt-2 space-y-6 w-full">
+
+                            <div class="w-full max-w-xs mb-2">
+                                <div
+                                    class="flex justify-between text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">
+                                    <span>Progresso</span>
+                                    <span id="gameplay-progress-text">1/10</span>
+                                </div>
+                                <div class="game-progress-container w-full">
+                                    <div id="gameplay-progress-bar" class="game-progress-fill" style="width: 10%"></div>
+                                </div>
+                            </div>
+
+                            <div class="relative mt-4">
+                                <div id="gameplay-main-emoji"
+                                    class="text-9xl cursor-pointer transition-transform active:scale-90 select-none drop-shadow-xl filter">
+                                    🤔</div>
+
+                                <div id="gameplay-sound-icon-container"
+                                    class="absolute -bottom-4 right-0 bg-blue-500 text-white rounded-full p-3 shadow-lg border-4 border-white">
+                                    <i data-lucide="volume-2" class="w-8 h-8"></i>
+                                </div>
+                            </div>
+
+                            <div id="gameplay-feedback" class="h-8 text-center font-bold text-lg"></div>
+
+                            <div id="gameplay-options-grid" class="grid grid-cols-2 gap-4 w-full max-w-sm">
+                            </div>
+                        </main>
+                    </div>
+
+                    <div id="sound-level-up-popup"
+                        class="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
+                        <div
+                            class="bg-white w-4/5 max-w-sm rounded-3xl p-6 shadow-2xl relative flex flex-col items-center animate-pop-in border-4 border-yellow-400">
+
+                            <button onclick="SoundLogic.closeLevelUpPopup()"
+                                class="absolute top-3 right-3 p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-red-100 hover:text-red-500 transition-colors font-bold">
+                                <i data-lucide="x" class="w-5 h-5"></i>
+                            </button>
+
+                            <div class="mb-4 relative">
+                                <div
+                                    class="absolute inset-0 bg-yellow-200 rounded-full blur-xl opacity-50 animate-pulse">
+                                </div>
+                                <i data-lucide="star"
+                                    class="w-20 h-20 text-yellow-400 fill-yellow-400 animate-bounce-slow drop-shadow-lg relative z-10"></i>
+                                <div class="absolute -top-2 -right-2 animate-spin-slow text-yellow-500">✨</div>
+                                <div class="absolute -bottom-2 -left-2 animate-spin-slow text-yellow-500"
+                                    style="animation-delay: 0.5s">✨</div>
+                            </div>
+
+                            <h2 class="text-2xl font-black text-gray-800 mb-1 text-center uppercase">Incrível!</h2>
+                            <p class="text-sm text-gray-500 mb-6 text-center font-medium">Você completou a jornada!</p>
+
+                            <div class="bg-yellow-50 p-3 rounded-xl w-full mb-6 text-center border border-yellow-100">
+                                <span class="text-xs font-bold text-yellow-600 uppercase">Recompensa</span>
+                                <div class="text-lg font-bold text-yellow-700">+1 Estrela de Ouro</div>
+                            </div>
+
+                            <button id="level-up-next-btn" onclick="SoundLogic.proceedToNextWorld()"
+                                class="w-full py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-bold text-lg shadow-lg shadow-blue-200 hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-2">
+                                <span id="level-up-btn-text">Próxima Jornada</span>
+                                <i id="level-up-btn-icon" data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="sound-free-mode-selector" class="screen hidden h-full flex flex-col">
+                        <header
+                            class="flex items-center justify-between p-4 pt-12 px-6 shadow-sm bg-white relative z-10">
+                            <button onclick="SoundLogic.renderMainMenu()"
+                                class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                                <i data-lucide="arrow-left" class="w-8 h-8" style="color: var(--text-primary);"></i>
+                            </button>
+                            <h1 class="text-xl font-bold tracking-tight accent-text">Modo Livre: Escolha</h1>
+                            <button onclick="showHelpModal('sound')"
+                                class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                                <i data-lucide="help-circle" class="w-6 h-6 accent-text"></i>
+                            </button>
+                        </header>
+                        <main class="flex-grow overflow-y-auto px-6 pb-28 pt-6">
+                            <div id="free-mode-worlds-grid" class="grid grid-cols-1 gap-4">
+                            </div>
+                        </main>
+                    </div>
+                </div>
+                <div id="game-guess-word-screen" class="screen hidden h-full flex flex-col">
+                    <header class="flex items-center justify-between p-4 pt-12 px-6">
+                        <button class="game-back-btn p-2 rounded-full hover:bg-gray-200/50"><i data-lucide="arrow-left"
+                                class="w-6 h-6"></i></button>
+                        <h1 id="word-game-title" class="text-xl font-bold tracking-tight">Adivinhe a Palavra</h1>
+                        <button class="game-help-btn p-2 rounded-full hover:bg-gray-200/50" data-game="guess-word">
+                            <i data-lucide="help-circle" class="w-6 h-6 accent-text"></i>
+                        </button>
+                    </header>
+                    <main class="flex-grow flex flex-col items-center justify-start px-6 pb-28 space-y-8">
+                        <div id="word-category-selector" class="w-full max-w-xs space-y-4 pt-8">
+                            <h2 class="text-lg font-semibold text-center accent-text">Escolha a Categoria:</h2>
+                            <button
+                                class="category-select-word-btn category-select-btn w-full flex items-center justify-center space-x-2"
+                                data-category="animals">
+                                <span class="text-2xl">🐶</span>
+                                <span class="text-lg">ANIMAIS</span>
+                            </button>
+                            <button
+                                class="category-select-word-btn category-select-btn w-full flex items-center justify-center space-x-2"
+                                data-category="fruits">
+                                <span class="text-2xl">🍎</span>
+                                <span class="text-lg">FRUTAS</span>
+                            </button>
+                            <button
+                                class="category-select-word-btn category-select-btn w-full flex items-center justify-center space-x-2"
+                                data-category="diversos">
+                                <span class="text-2xl">🚗</span>
+                                <span class="text-lg">DIVERSOS</span>
+                            </button>
+                        </div>
+                        <div id="word-game-content" class="w-full flex flex-col items-center space-y-8 hidden">
+                            <div id="word-score" class="text-lg font-bold accent-text">Pontuação: 0</div>
+                            <div id="word-display-emoji" class="word-letter-emoji-btn">🤔</div>
+
+                            <div id="word-slots-container" class="flex justify-center space-x-2 flex-wrap">
+                            </div>
+
+                            <div id="word-guess-feedback" class="game-feedback text-lg"></div>
+
+                            <div id="word-letter-options" class="w-full max-w-sm flex flex-wrap justify-center gap-2">
+                            </div>
+                        </div>
+                    </main>
+                </div>
+                <div id="avatar-modal" class="screen hidden h-full flex flex-col absolute inset-0 z-50 bg-white">
+                    <header
+                        class="p-4 pt-12 px-6 shadow-sm bg-white relative z-10 flex items-center justify-between border-b border-gray-100">
+                        <button id="avatar-close-btn" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                            <i data-lucide="x" class="w-6 h-6 text-gray-600"></i>
+                        </button>
+                        <h1 class="text-xl font-bold tracking-tight text-gray-800">Alterar Foto</h1>
+                        <div class="w-10"></div>
+                    </header>
+
+                    <div class="flex-grow overflow-y-auto p-6">
+                        <div class="flex space-x-2 mb-6 bg-gray-100 p-1 rounded-xl">
+                            <button id="tab-avatar-colors"
+                                class="avatar-tab active flex-1 py-2 rounded-lg font-semibold text-sm transition-all">Cores</button>
+                            <button id="tab-avatar-achievements"
+                                class="avatar-tab flex-1 py-2 rounded-lg font-semibold text-sm transition-all">Conquistas</button>
+                        </div>
+
+                        <div id="avatar-grid" class="grid grid-cols-2 gap-4 pb-24">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="about-screen" class="screen hidden h-full flex flex-col">
+                <header class="p-4 pt-12 px-6 relative text-center">
+                    <button id="about-back-btn"
+                        class="absolute left-6 top-11 p-1 rounded-full hover:bg-gray-200 transition-colors">
+                        <i data-lucide="arrow-left" class="w-6 h-6" style="color: var(--text-secondary);"></i>
+                    </button>
+                    <h1 class="text-2xl font-bold tracking-tight">Sobre o NeuroAdapt</h1>
+                </header>
+
+                <main class="flex-grow overflow-y-auto px-6 pb-28 space-y-6">
+
+                    <div class="card p-5 rounded-2xl shadow-md space-y-3">
+                        <h2 class="text-xl font-bold accent-text flex items-center space-x-2">
+                            <i data-lucide="brain-circuit" class="w-6 h-6"></i>
+                            <span>Sobre o NeuroAdapt</span>
+                        </h2>
+                        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                            O <strong>NeuroAdapt</strong> é um ambiente digital criado para apoiar o desenvolvimento
+                            cognitivo, emocional e comunicativo de crianças <strong>com foco em necessidades atípicas,
+                                como
+                                o Transtorno do Espectro Autista (TEA)</strong>. O objetivo é integrar tecnologia e
+                            neuroeducação para estimular atenção, raciocínio lógico e comunicação alternativa através do
+                            brincar.
+                        </p>
+                    </div>
+
+                    <div class="card p-5 rounded-2xl shadow-md space-y-3">
+                        <h2 class="text-xl font-bold accent-text flex items-center space-x-2">
+                            <i data-lucide="zap" class="w-6 h-6"></i>
+                            <span>Modos Sensoriais Adaptativos</span>
+                        </h2>
+                        <p class="text-sm leading-relaxed font-semibold" style="color: var(--text-primary);">
+                            A **modulação sensorial** é crucial no TEA. O NeuroAdapt oferece dois modos para se ajustar
+                            à
+                            necessidade do usuário a qualquer momento:
+                        </p>
+
+                        <div class="space-y-4 mt-3">
+                            <div class="bg-blue-50 p-3 rounded-xl border border-blue-200">
+                                <h3 class="font-bold text-base text-blue-800 mb-1 flex items-center"><i
+                                        data-lucide="moon" class="w-5 h-5 mr-2"></i> Modo Calmo</h3>
+                                <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                                    Cores pastéis, baixo contraste e sem vibração/animações intensas.
+                                    **Propósito:** Reduzir a sobrecarga sensorial (hipersensibilidade), promover o foco
+                                    e
+                                    auxiliar em momentos de alta ansiedade.
+                                </p>
+                            </div>
+                            <div class="bg-amber-50 p-3 rounded-xl border border-amber-200">
+                                <h3 class="font-bold text-base text-amber-800 mb-1 flex items-center"><i
+                                        data-lucide="sparkles" class="w-5 h-5 mr-2"></i> Modo Estimulante</h3>
+                                <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                                    Cores vibrantes, alto contraste, feedback tátil (vibração) e animações.
+                                    **Propósito:** Manter o engajamento e aumentar o estado de alerta
+                                    (hipossensibilidade),
+                                    fornecendo reforço positivo intenso e necessário.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card p-5 rounded-2xl shadow-md space-y-3">
+                        <h2 class="text-xl font-bold accent-text flex items-center space-x-2">
+                            <i data-lucide="gamepad-2" class="w-6 h-6"></i>
+                            <span>Jogos e Lógica</span>
+                        </h2>
+                        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                            A aba **Jogos** usa Metagames de progressão (como Jornadas ou Mapas) para criar uma curva de
+                            evolução.
+                        </p>
+                        <ul class="list-disc list-inside text-sm mt-2" style="color: var(--text-secondary);">
+                            <li>**Intuito:** Fortalecer lógica, foco, coordenação motora e discriminação
+                                visual/auditiva.
+                            </li>
+                            <li>**Modelo:** As interações são adaptadas ao Modo Sensorial (Clique no Calmo, Arrastar no
+                                Estimulante) para maior acessibilidade.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card p-5 rounded-2xl shadow-md space-y-3">
+                        <h2 class="text-xl font-bold accent-text flex items-center space-x-2">
+                            <i data-lucide="messages-square" class="w-6 h-6"></i>
+                            <span>Comunicação Aumentativa (CAA)</span>
+                        </h2>
+                        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                            A seção **Comunicação** é um sistema de CAA. O usuário monta frases com pictogramas, que são
+                            convertidos em fala através da Síntese de Voz.
+                        </p>
+                        <ul class="list-disc list-inside text-sm mt-2" style="color: var(--text-secondary);">
+                            <li>**Modelo:** Inclui Símbolos (pedidos/ações), **Alfabeto**, **Números** e a aba
+                                **Emoções**
+                                (para autorregulação).</li>
+                        </ul>
+                    </div>
+
+                    <div class="card p-5 rounded-2xl shadow-md space-y-3">
+                        <h2 class="text-xl font-bold accent-text flex items-center space-x-2">
+                            <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                            <span>Relatórios de Progresso</span>
+                        </h2>
+                        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                            Todas as atividades realizadas no app geram **relatórios automáticos e visuais**. Eles
+                            mostram o
+                            progresso nos jogos e na comunicação, ajudando pais e educadores a **personalizar
+                            intervenções**
+                            e acompanhar avanços específicos.
+                        </p>
+                    </div>
+
+                    <div class="card p-5 rounded-2xl shadow-md space-y-3">
+                        <h2 class="text-xl font-bold accent-text flex items-center space-x-2">
+                            <i data-lucide="lightbulb" class="w-6 h-6"></i>
+                            <span>Nosso Propósito</span>
+                        </h2>
+                        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                            O <strong>NeuroAdapt</strong> nasce com o propósito de facilitar a inclusão, o
+                            desenvolvimento e
+                            a comunicação de forma divertida e significativa. Mais do que um aplicativo, ele é uma
+                            ferramenta que promove conexão, confiança e aprendizado, ajudando cada criança a crescer em
+                            seu
+                            próprio ritmo — com alegria, estímulo e acolhimento.
+                        </p>
+                    </div>
+                </main>
+            </div>
+
+            <nav class="card w-full h-24 rounded-t-3xl shadow-inner-top p-2 absolute bottom-0 left-0 right-0">
+                <div class="flex justify-around items-center h-full">
+                    <a href="#"
+                        class="nav-item flex flex-col items-center justify-center space-y-1 text-gray-400 relative"
+                        data-screen="games-screen">
+                        <div
+                            class="accent-bg-highlight hidden accent-bg w-12 h-8 rounded-full absolute -z-10 top-1 opacity-30">
+                        </div> <i data-lucide="gamepad-2" class="w-7 h-7"></i> <span
+                            class="text-xs font-medium">Jogos</span>
+                    </a>
+                    <a href="#"
+                        class="nav-item flex flex-col items-center justify-center space-y-1 text-gray-400 relative"
+                        data-screen="communication-screen">
+                        <div
+                            class="accent-bg-highlight hidden accent-bg w-12 h-8 rounded-full absolute -z-10 top-1 opacity-30">
+                        </div> <i data-lucide="messages-square" class="w-7 h-7"></i> <span
+                            class="text-xs font-medium">Comunicação</span>
+                    </a>
+                    <a href="#"
+                        class="nav-item flex flex-col items-center justify-center space-y-1 text-gray-400 relative"
+                        data-screen="reports-screen">
+                        <div
+                            class="accent-bg-highlight hidden accent-bg w-12 h-8 rounded-full absolute -z-10 top-1 opacity-30">
+                        </div> <i data-lucide="bar-chart-3" class="w-7 h-7"></i> <span
+                            class="text-xs font-medium">Relatórios</span>
+                    </a>
+                    <a href="#"
+                        class="nav-item flex flex-col items-center justify-center space-y-1 text-gray-400 relative"
+                        data-screen="home-screen">
+                        <div
+                            class="accent-bg-highlight hidden accent-bg w-12 h-8 rounded-full absolute -z-10 top-1 opacity-30">
+                        </div> <i data-lucide="user-circle" class="w-7 h-7"></i> <span
+                            class="text-xs font-medium">Perfil</span>
+                    </a>
+                </div>
+                <div class="card p-5 rounded-2xl shadow-md space-y-3">
+                    <button
+                        class="w-full p-4 rounded-xl flex justify-between items-center transition-transform transform hover:scale-105 active:scale-95"
+                        style="background-color: var(--game-incorrect); opacity: 0.9;">
+                        <span class="font-semibold text-white">Sair (Logout)</span>
+                        <i data-lucide="log-out" class="w-5 h-5 text-white"></i>
+                    </button>
+
+                    <button id="dev-reset-btn"
+                        class="w-full p-4 rounded-xl flex justify-between items-center border-2 border-red-500 text-red-500 font-bold hover:bg-red-50 transition-colors mt-4 active:scale-95">
+                        <span>[DEV] Resetar Memória</span>
+                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </nav>
+
+            <div id="confetti-container" class="absolute inset-0 z-150 overflow-hidden pointer-events-none">
+            </div>
+
+            <div id="game-help-overlay" class="game-overlay hidden">
+                <div class="card p-8 rounded-2xl shadow-xl w-4/5 relative">
+                    <button id="close-help-modal-btn" class="close-modal-btn">
+                        <i data-lucide="x" class="w-5 h-5" style="color: var(--text-secondary);"></i>
+                    </button>
+                    <i data-lucide="help-circle" class="w-12 h-12 accent-text mx-auto mb-4"></i>
+                    <h2 id="help-modal-title" class="text-2xl font-bold mt-2 text-center">Como Jogar?</h2>
+
+                    <div class="mt-4 text-center">
+                        <button id="help-modal-listen-btn"
+                            class="py-2 px-4 mb-3 bg-blue-500 text-white rounded-full font-semibold text-sm flex items-center justify-center space-x-2 mx-auto shadow-md hover:bg-blue-600 transition-colors">
+                            <i data-lucide="volume-2" class="w-4 h-4"></i>
+                            <span>Ouvir Regras</span>
+                        </button>
+
+                        <p id="help-modal-text" class="text-sm text-center" style="color: var(--text-secondary);"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="achievement-popup" class="achievement-popup">
+                <span id="popup-icon" class="achievement-popup-icon">⭐</span>
+                <div class="achievement-popup-text">
+                    <h4>Conquista desbloqueada!</h4>
+                    <p id="popup-name"></p>
+                </div>
+            </div>
+
+            <div id="disclaimer-modal" class="disclaimer-modal hidden">
+                <div id="disclaimer-card"
+                    class="bg-white w-4/5 max-w-xs rounded-2xl p-6 shadow-2xl flex flex-col items-center animate-pop-in border-4 border-red-500">
+
+                    <div class="text-6xl mb-4">🛑</div>
+
+                    <h2 class="text-xl font-black text-red-700 mb-4 text-center uppercase tracking-wide">AVISO
+                        IMPORTANTE</h2>
+
+                    <p class="text-sm text-gray-700 mb-6 text-center leading-relaxed font-semibold">
+                        Esta ferramenta digital (PROTÓTIPO) foi desenvolvida estritamente para APOIO, ESTUDO E
+                        REFORÇO de pais e educadores.
+                    </p>
+
+                    <p
+                        class="text-sm text-red-600 mb-6 text-center leading-relaxed font-extrabold border-t border-b border-red-200 py-3 w-full">
+                        ESTE APLICATIVO NÃO SUBSTITUI A AVALIAÇÃO, DIAGNÓSTICO OU ACOMPANHAMENTO DE PROFISSIONAIS DA
+                        SAÚDE E EDUCAÇÃO.
+                        Consulte sempre um especialista.
+                    </p>
+
+                    <button id="disclaimer-close-btn"
+                        class="w-full py-3 bg-red-600 text-white rounded-xl font-bold text-base shadow-lg hover:bg-red-700 transition-colors">
+                        Compreendido
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ============================================
+         SCRIPTS - SISTEMA GLOBAL E INICIALIZAÇÃO
+         ============================================ -->
+
+    <!-- Globals e Utilitários -->
+    <script src="src/js/globals.js" defer></script>
+
+    <!-- ============================================
+         SCRIPTS - JOGOS (MODELOS LEGADOS)
+         ============================================ -->
+    <script src="src/js/gameController.js" defer></script>
+    <script src="src/js/games/gameConnectDots.js" defer></script>
+    <script src="src/js/games/gamePuzzle.js" defer></script>
+    <script src="src/js/games/gameGuessColor.js" defer></script>
+    <script src="src/js/games/gameConnectNumbers.js" defer></script>
+    <script src="src/js/games/gameColorSequence.js" defer></script>
+    <script src="src/js/games/gameGuessWord.js" defer></script>
+
+    <!-- ============================================
+         SCRIPTS - JOGOS (NOVO MODELO COM UI/UX)
+         ============================================ -->
+    <!-- Combine as Formas -->
+    <script src="src/js/games/combine_shapes/shapeData.js" defer></script>
+    <script src="src/js/games/combine_shapes/shapeLevels.js" defer></script>
+    <script src="src/js/games/combine_shapes/shapeGameplay.js" defer></script>
+    <script src="src/js/games/combine_shapes/shapeLogic.js" defer></script>
+
+    <!-- Adivinhe o Som -->
+    <script src="src/js/games/guess_sound/soundData.js" defer></script>
+    <script src="src/js/games/guess_sound/soundLevels.js" defer></script>
+    <script src="src/js/games/guess_sound/soundLogic.js" defer></script>
+
+    <!-- Adivinhe a Emoção -->
+    <script src="src/js/games/guess_emotion/emotionData.js" defer></script>
+    <script src="src/js/games/guess_emotion/emotionLevels.js" defer></script>
+    <script src="src/js/games/guess_emotion/emotionGameplay.js" defer></script>
+    <script src="src/js/games/guess_emotion/emotionLogic.js" defer></script>
+
+    <!-- ============================================
+         SCRIPTS - COMUNICAÇÃO (CAA)
+         ============================================ -->
+    <script src="src/js/communication/caaData.js" defer></script>
+    <script src="src/js/communication/caaLogic.js" defer></script>
+    <script src="src/js/communication/emotionsBoard.js" defer></script>
+    <script src="src/js/communication/alphabetBoard.js" defer></script>
+    <script src="src/js/communication/numbersBoard.js" defer></script>
+    <script src="src/js/communication/commHub.js" defer></script>
+
+    <!-- ============================================
+         SCRIPTS - ANÁLISE E RELATÓRIOS
+         ============================================ -->
+    <script src="src/js/gameAnalytics.js" defer></script>
+    <script src="src/js/reports/reportLogic.js" defer></script>
+    <script src="src/js/reports/reportsHub.js" defer></script>
+    <script src="src/js/reports/gamesReports.js" defer></script>
+    <script src="src/js/reports/commReports.js" defer></script>
+
+    <!-- ============================================
+         SCRIPTS - CONQUISTAS E SISTEMA DE PONTOS
+         ============================================ -->
+    <script src="src/js/achievements/achievementsData.js" defer></script>
+    <script src="src/js/achievements/achievements.js" defer></script>
+
+    <!-- ============================================
+         SCRIPTS - APLICAÇÃO PRINCIPAL
+         ============================================ -->
+    <script src="src/js/main.js" defer></script>
+
+</body>
+
+</html>

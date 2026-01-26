@@ -1,0 +1,1508 @@
+/* Define as variáveis de cor para o Modo Calmo (padrão) */
+.theme-calm {
+    --bg-primary: #F3F4F6;
+    --bg-secondary: #FFFFFF;
+    --text-primary: #1F2937;
+    --text-secondary: #4B5563;
+    --accent-primary: #3B82F6;
+    --accent-secondary: #EFF6FF;
+    --border-color: #D1D5DB;
+
+    /* Cores do Jogo (Calmo) */
+    --game-red: #FCA5A5;
+    --game-green: #A7F3D0;
+    --game-blue: #BFDBFE;
+    --game-yellow: #FDE68A;
+    --game-purple: #C4B5FD;
+    --game-orange: #FDBA74;
+    --game-correct: #34D399;
+    --game-incorrect: #F87171;
+
+    /* Cor estimulante para animação */
+    --accent-primary-stimulant: #F59E0B;
+
+    /* --- CORES CHAVE DE FITZGERALD (Modo Calmo: Tons Pastéis) --- */
+    
+    --fitz-people: #FEF08A;
+    /* Amarelo Suave (Pessoas/Pronomes) */
+    --fitz-action: #86EFAC;
+    /* Verde Suave (Verbos/Ações) */
+    --fitz-noun: #FDBA74;
+    /* Laranja Suave (Substantivos/Coisas) */
+    --fitz-social: #F9A8D4;
+    /* Rosa Suave (Social/Polidez) */
+    --fitz-feeling: #93C5FD;
+    /* Azul Suave (Sentimentos/Adjetivos) */
+    --fitz-misc: #E5E7EB;
+    /* Cinza (Outros) */
+}
+
+/* Define as variáveis de cor para o Modo Estimulante */
+.theme-stimulant {
+    --bg-primary: #FFFBEB;
+    --bg-secondary: #FFFFFF;
+    --text-primary: #1F2937;
+    --text-secondary: #4B5563;
+
+    --accent-primary: #0057FF;
+    --accent-secondary: #E6F0FF;
+    --border-color: #FDE68A;
+
+    /* NOVAS CORES DE JOGO */
+    --game-red: #FF3B3B;
+    --game-green: #29A745;
+    --game-blue: #0057FF;
+    --game-yellow: #FFC300;
+    --game-purple: #8B5CF6;
+    --game-orange: #FF8C42;
+
+    --game-correct: #29A745;
+    --game-incorrect: #FF3B3B;
+
+    --accent-primary-stimulant: #FFC300;
+
+    /* --- CORES CHAVE DE FITZGERALD (Modo Estimulante: Cores Vivas) --- */
+    --fitz-people: #FFD700;
+    /* Amarelo Ouro */
+    --fitz-action: #00E676;
+    /* Verde Vivo */
+    --fitz-noun: #FF8C00;
+    /* Laranja Escuro */
+    --fitz-social: #FF1493;
+    /* Rosa Choque */
+    --fitz-feeling: #00BFFF;
+    /* Azul Deep Sky */
+    --fitz-misc: #9CA3AF;
+    /* Cinza Médio */
+}
+
+/* --- INÍCIO DO BLOCO DE DIMENSIONAMENTO RESPONSIVO (FINAL) --- */
+
+/* 1. DEFINIÇÕES DE DESKTOP (SIMULAÇÃO) */
+/* Aplica o fundo escuro e centraliza o app em telas grandes */
+html, body {
+    /* CORREÇÃO DE BG: Garante o fundo escuro da simulação em telas grandes */
+    background-color: #1F2937 !important;
+    min-height: 100vh;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Define as dimensões e bordas fixas para a simulação de celular */
+.app-container {
+    width: 375px;
+    height: 812px;
+    max-width: 375px;
+    max-height: 812px;
+    /* Garante que o app container tenha o fundo do tema no DESKTOP */
+    background-color: var(--bg-primary);
+    border: 8px solid black;
+    border-radius: 40px;
+    transition: all 0.3s ease-in-out;
+}
+
+
+/* --- 2. ADAPTAÇÃO MOBILE (OVERRIDE PARA TELA CHEIA) --- */
+
+@media (max-width: 767px) {
+
+    /* No celular, o body deve usar a cor do tema e não a cor escura */
+    html, body {
+        background-color: var(--bg-primary) !important;
+        display: block !important;
+    }
+
+    /* Expande o container para tela cheia e remove a simulação */
+    .app-container {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+}
+
+.card {
+    background-color: var(--bg-secondary);
+    transition: background-color 0.5s ease;
+}
+
+.accent-bg {
+    background-color: var(--accent-primary);
+    transition: background-color 0.5s ease;
+}
+
+.accent-text {
+    color: var(--accent-primary);
+    transition: color 0.5s ease;
+}
+
+.secondary-accent-bg {
+    background-color: var(--accent-secondary);
+    transition: background-color 0.5s ease;
+}
+
+.nav-item.active .accent-text {
+    color: var(--accent-primary);
+}
+
+.phrase-builder {
+    border-color: var(--border-color);
+    transition: border-color 0.5s ease;
+}
+
+/* Estilos para pictogramas dentro da barra de frases */
+#phrase-display .phrase-item {
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+#phrase-display .phrase-item:hover {
+    opacity: 0.7;
+}
+
+.chart-bar {
+    background-color: var(--accent-secondary);
+}
+
+.chart-fill {
+    background-color: var(--accent-primary);
+}
+
+.screen.hidden {
+    display: none;
+}
+
+#welcome-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    background-color: var(--bg-primary);
+    transition: opacity 0.5s ease;
+}
+
+#welcome-screen .accent-bg {
+    transition: background-color 1s ease, transform 1s ease, opacity 1s ease;
+}
+
+/* --- ESTILOS DA TELA DE LOGIN --- */
+
+/* Animação de Fundo Suave */
+@keyframes gradientBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.login-form-container {
+    width: 100%;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.8s ease-out;
+    border: 2px solid var(--border-color);
+}
+
+.form-heading {
+    text-align: center;
+    color: var(--text-primary);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-group .label {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    font-size: 12px;
+    color: var(--accent-primary);
+    background-color: var(--bg-secondary);
+    padding: 0 5px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1rem;
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 4px var(--accent-secondary);
+    background-color: var(--bg-secondary);
+}
+
+.forgot-password {
+    text-align: right;
+    margin-bottom: 25px;
+}
+
+.forgot-password a {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.submit-login-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: var(--accent-primary);
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.submit-login-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.submit-login-btn:active {
+    transform: scale(0.98);
+}
+
+.signup-link {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 20px;
+}
+
+.signup-link a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+/* Mensagem de Erro */
+#login-error-msg {
+    color: var(--game-incorrect);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 600;
+    min-height: 20px;
+}
+
+.game-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    backdrop-filter: blur(4px);
+}
+
+/* --- CLASSES DE BORDA FITZGERALD (NOVO) --- */
+.fitz-border-people {
+    border: 3px solid var(--fitz-people) !important;
+    background-color: rgba(254, 240, 138, 0.1);
+    /* Leve tint amarelo */
+}
+
+.fitz-border-action {
+    border: 3px solid var(--fitz-action) !important;
+    background-color: rgba(134, 239, 172, 0.1);
+    /* Leve tint verde */
+}
+
+.fitz-border-noun {
+    border: 3px solid var(--fitz-noun) !important;
+    background-color: rgba(253, 186, 116, 0.1);
+    /* Leve tint laranja */
+}
+
+.fitz-border-social {
+    border: 3px solid var(--fitz-social) !important;
+    background-color: rgba(249, 168, 212, 0.1);
+    /* Leve tint rosa */
+}
+
+.fitz-border-feeling {
+    border: 3px solid var(--fitz-feeling) !important;
+    background-color: rgba(147, 197, 253, 0.1);
+    /* Leve tint azul */
+}
+
+.fitz-border-misc {
+    border: 3px solid var(--fitz-misc) !important;
+}
+
+/* --- ESTILOS DOS JOGOS --- */
+.shape-slot {
+    width: 80px;
+    height: 80px;
+    border: 3px dashed var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.shape-slot svg {
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+
+.shape-slot.hovered {
+    border-style: solid;
+    border-color: var(--accent-primary);
+    background-color: var(--accent-secondary);
+}
+
+.shape-slot.matched svg {
+    opacity: 1.0;
+}
+
+.shape-piece {
+    width: 75px;
+    height: 75px;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.shape-piece:active {
+    cursor: grabbing;
+}
+
+.shape-piece.dragging {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    border: 2px solid var(--accent-primary);
+}
+
+.shape-piece.placed {
+    opacity: 0.3;
+    cursor: default;
+}
+
+#connect-dots-canvas {
+    border: 3px solid var(--border-color);
+    transition: border-color 0.5s ease;
+}
+
+#connect-numbers-canvas {
+    border: 3px solid var(--border-color);
+    transition: border-color 0.5s ease;
+}
+
+.puzzle-slot,
+.puzzle-piece {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.puzzle-slot {
+    border: 2px dashed var(--border-color);
+    opacity: 0.3;
+    transition: all 0.3s ease;
+    background-color: transparent !important;
+    color: var(--text-secondary) !important;
+    text-shadow: none;
+}
+
+.puzzle-slot.hovered {
+    border-style: solid;
+    border-color: var(--accent-primary);
+    background-color: var(--accent-secondary);
+    opacity: 0.5;
+}
+
+.puzzle-slot.matched {
+    opacity: 1.0;
+    border-style: solid;
+    border-color: transparent;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.puzzle-piece {
+    cursor: grab;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
+
+.puzzle-piece:active {
+    cursor: grabbing;
+}
+
+.puzzle-piece.dragging {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    border: 2px solid var(--accent-primary);
+}
+
+.puzzle-piece.placed {
+    opacity: 0.3;
+    cursor: default;
+}
+
+#emotion-display {
+    font-size: 80px;
+    line-height: 1;
+    user-select: none;
+}
+
+#color-display-box {
+    width: 150px;
+    height: 150px;
+    border-radius: 20px;
+    border: 4px solid var(--bg-secondary);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.5s ease;
+}
+
+#sound-display-box {
+    font-size: 80px;
+    line-height: 1;
+    user-select: none;
+}
+
+.game-option-btn {
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    padding: 12px 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.game-option-btn:hover {
+    border-color: var(--accent-primary);
+    background-color: var(--accent-secondary);
+}
+
+.game-option-btn.correct {
+    background-color: var(--game-correct);
+    border-color: var(--game-correct);
+    color: white;
+    animation: pulse 0.5s;
+}
+
+.game-option-btn.incorrect {
+    background-color: var(--game-incorrect);
+    border-color: var(--game-incorrect);
+    color: white;
+    animation: shake 0.5s;
+}
+
+.game-option-btn.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.game-feedback {
+    height: 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.game-feedback.correct {
+    color: var(--game-correct);
+}
+
+.game-feedback.incorrect {
+    color: var(--game-incorrect);
+}
+
+.goal-cell {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.sequence-slot {
+    width: 60px;
+    height: 60px;
+    border: 3px dashed var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+}
+
+.sequence-slot.hovered {
+    border-style: solid;
+    border-color: var(--accent-primary);
+    background-color: var(--accent-secondary);
+}
+
+.sequence-slot.matched {
+    border-style: solid;
+    border-color: transparent;
+    opacity: 1;
+}
+
+.sequence-slot.disabled {
+    opacity: 0.2;
+    background-color: var(--border-color);
+    border-style: solid;
+}
+
+.sequence-piece {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    cursor: grab;
+    transition: all 0.2s ease;
+    border: 3px solid rgba(0, 0, 0, 0.2);
+}
+
+.sequence-piece:active {
+    cursor: grabbing;
+}
+
+.sequence-piece.dragging {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    border: 3px solid var(--accent-primary);
+}
+
+.sequence-piece.placed {
+    opacity: 0.3;
+    cursor: default;
+}
+
+/* NOVO ESTILO: ADIVINHE A PALAVRA */
+.word-letter-slot {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-right: 4px;
+    border-bottom: 4px solid var(--text-primary);
+    width: 30px;
+    text-align: center;
+    color: var(--text-primary);
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.word-letter-slot.guessed {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+.word-letter-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.word-letter-btn:hover:not(.disabled) {
+    border-color: var(--accent-primary);
+    background-color: var(--accent-secondary);
+}
+
+.word-letter-btn.correct {
+    background-color: var(--game-correct);
+    border-color: var(--game-correct);
+    color: white;
+    animation: pulse 0.5s;
+}
+
+.word-letter-btn.incorrect {
+    background-color: var(--game-incorrect);
+    border-color: var(--game-incorrect);
+    color: white;
+    animation: shake 0.5s;
+}
+
+.word-letter-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.word-letter-emoji-btn {
+    font-size: 80px;
+    line-height: 1;
+    user-select: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.word-letter-emoji-btn:active {
+    transform: scale(0.95);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* ----- Estilos: Abas de Comunicação e Seletor de Emoção ----- */
+.communication-tab.active {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    font-weight: 600;
+}
+
+.communication-content.hidden {
+    display: none;
+}
+
+.emotion-select-btn {
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.emotion-select-btn:hover {
+    border-color: var(--accent-primary);
+    background-color: var(--accent-secondary);
+}
+
+.emotion-select-btn.active {
+    background-color: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: white;
+    font-weight: 600;
+}
+
+#emotion-info-coping-list li {
+    position: relative;
+    padding-left: 0;
+}
+
+#emotion-info-coping-list li::before {
+    content: none;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    background-color: var(--bg-secondary);
+    border-radius: 9999px;
+    padding: 4px;
+    border: 2px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.close-modal-btn:hover {
+    transform: scale(1.1);
+    border-color: var(--accent-primary);
+}
+
+.report-tab.active {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    font-weight: 600;
+}
+
+.report-content.hidden {
+    display: none;
+}
+
+.line-chart-path {
+    stroke: var(--accent-primary);
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.line-chart-grid {
+    stroke: var(--border-color);
+    stroke-width: 1;
+    stroke-dasharray: 2 3;
+}
+
+.line-chart-point {
+    fill: var(--accent-primary);
+}
+
+.tag-cloud-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+
+.tag-cloud-item {
+    background-color: var(--accent-secondary);
+    color: var(--accent-primary);
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-weight: 500;
+}
+
+.report-highlight {
+    font-weight: bold;
+    color: var(--accent-primary);
+}
+
+#confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 150;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.star-particle {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: var(--game-blue);
+    opacity: 0;
+    clip-path: polygon(50% 0%, 61% 35%, 95% 35%, 67% 55%, 78% 85%, 50% 65%, 22% 85%, 33% 55%, 5% 35%, 39% 35%);
+    animation: burst-out 1s ease-out forwards;
+}
+
+@keyframes burst-out {
+    0% {
+        transform: scale(0.5) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(1) rotate(180deg);
+        opacity: 0;
+    }
+}
+
+.category-select-btn {
+    background-color: var(--accent-secondary);
+    color: var(--accent-primary);
+    font-weight: 600;
+    padding: 20px;
+    border-radius: 16px;
+    border: 2px solid var(--accent-primary);
+    transition: all 0.2s ease;
+}
+
+.category-select-btn:hover {
+    background-color: var(--accent-primary);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-popup {
+    position: absolute;
+    bottom: 100px;
+    right: -350px;
+    width: 300px;
+    height: 70px;
+    background-color: #1a1a1a;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    transition: right 0.5s ease-in-out;
+}
+
+.achievement-popup.show {
+    right: 20px;
+}
+
+.achievement-popup-icon {
+    font-size: 40px;
+    line-height: 1;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.achievement-popup-text h4 {
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: #00ff00;
+    margin-bottom: 2px;
+}
+
+.achievement-popup-text p {
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.theme-stimulant .comm-icon-blue {
+    color: var(--game-blue) !important;
+}
+
+.theme-stimulant .comm-text-blue {
+    color: var(--game-blue) !important;
+}
+
+.theme-stimulant .comm-icon-red {
+    color: var(--game-red) !important;
+}
+
+.theme-stimulant .comm-text-red {
+    color: var(--game-red) !important;
+    border: 1px;
+}
+
+.theme-stimulant .comm-icon-green {
+    color: var(--game-green) !important;
+}
+
+.theme-stimulant .comm-text-green {
+    color: var(--game-green) !important;
+}
+
+.theme-stimulant .comm-icon-yellow {
+    color: var(--game-yellow) !important;
+}
+
+.theme-stimulant .comm-text-yellow {
+    color: var(--game-yellow) !important;
+}
+
+/* --- ESTILOS ESPECÍFICOS DO JOGO ADIVINHE O SOM (JORNADA) --- */
+
+/* Animação do Caminho SVG (Tracejado correndo) */
+.map-path-anim {
+    stroke-dasharray: 15;
+    animation: dash-move 60s linear infinite;
+}
+
+@keyframes dash-move {
+    to {
+        stroke-dashoffset: -1000;
+    }
+}
+
+/* Nó Pulsante (Nível Atual) */
+@keyframes pulse-node {
+    0% {
+        box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.7);
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(250, 204, 21, 0);
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(250, 204, 21, 0);
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.animate-pulse-node {
+    animation: pulse-node 2s infinite;
+}
+
+/* Animação "Dica Suave" (Gentle Hint) */
+@keyframes gentle-hint {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    25% {
+        transform: scale(1.1) rotate(-5deg);
+    }
+
+    50% {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    75% {
+        transform: scale(1.1) rotate(-5deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+.animate-gentle-hint {
+    animation: gentle-hint 1s ease-in-out;
+}
+
+/* Formas Flutuantes no Fundo (Background) */
+.bg-floating-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bg-floating-shapes li {
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    animation: float-up 25s linear infinite;
+    bottom: -150px;
+    border-radius: 50%;
+}
+
+.bg-floating-shapes li:nth-child(1) {
+    left: 25%;
+    width: 80px;
+    height: 80px;
+    animation-delay: 0s;
+}
+
+.bg-floating-shapes li:nth-child(2) {
+    left: 10%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 2s;
+    animation-duration: 12s;
+}
+
+.bg-floating-shapes li:nth-child(3) {
+    left: 70%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 4s;
+}
+
+.bg-floating-shapes li:nth-child(4) {
+    left: 40%;
+    width: 60px;
+    height: 60px;
+    animation-delay: 0s;
+    animation-duration: 18s;
+}
+
+.bg-floating-shapes li:nth-child(5) {
+    left: 65%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 0s;
+}
+
+.bg-floating-shapes li:nth-child(6) {
+    left: 75%;
+    width: 110px;
+    height: 110px;
+    animation-delay: 3s;
+}
+
+.bg-floating-shapes li:nth-child(7) {
+    left: 35%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 7s;
+}
+
+.bg-floating-shapes li:nth-child(8) {
+    left: 50%;
+    width: 25px;
+    height: 25px;
+    animation-delay: 15s;
+    animation-duration: 45s;
+}
+
+.bg-floating-shapes li:nth-child(9) {
+    left: 20%;
+    width: 15px;
+    height: 15px;
+    animation-delay: 2s;
+    animation-duration: 35s;
+}
+
+.bg-floating-shapes li:nth-child(10) {
+    left: 85%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 0s;
+    animation-duration: 11s;
+}
+
+@keyframes float-up {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Utilitário de Shake */
+@keyframes shake-horizontal {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+.animate-shake {
+    animation: shake-horizontal 0.4s ease-in-out;
+}
+
+/* --- Animações do Popup de Level Up --- */
+
+@keyframes pop-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-pop-in {
+    animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin-slow {
+    animation: spin-slow 3s linear infinite;
+}
+
+@keyframes bounce-slow {
+    0%, 100% {
+        transform: translateY(-5%);
+    }
+
+    50% {
+        transform: translateY(5%);
+    }
+}
+
+.animate-bounce-slow {
+    animation: bounce-slow 2s infinite ease-in-out;
+}
+
+/* --- ESTILOS DE BOTÃO GAME 3D (Sólidos & Táteis) --- */
+
+/* Botão Genérico 3D */
+.btn-game-3d {
+    position: relative;
+    border: none;
+    border-radius: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.1s;
+    /* Sombra sólida para dar efeito 3D */
+    box-shadow: 0 6px 0 var(--border-color);
+    background-color: var(--bg-secondary);
+    /* Branco/Off-white por padrão */
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+}
+
+.btn-game-3d:active {
+    box-shadow: 0 0 0 var(--border-color);
+    transform: translateY(6px);
+}
+
+/* Estilo para os Botões de Opção (Respostas) */
+.game-option-btn-3d {
+    width: 100%;
+    min-height: 80px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    box-shadow: 0 6px 0 var(--border-color);
+    /* Sombra da cor da borda */
+    transition: all 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.game-option-btn-3d:active:not(.disabled) {
+    box-shadow: 0 0 0 var(--border-color);
+    transform: translateY(6px);
+}
+
+/* Estados de Feedback (Acerto/Erro) com cores sólidas mas suaves */
+.game-option-btn-3d.correct {
+    background-color: var(--game-green) !important;
+    border-color: #059669 !important;
+    /* Verde mais escuro na borda */
+    box-shadow: 0 6px 0 #059669 !important;
+    color: #003300 !important;
+}
+
+.game-option-btn-3d.correct:active {
+    box-shadow: 0 0 0 #059669 !important;
+}
+
+.game-option-btn-3d.incorrect {
+    background-color: var(--game-red) !important;
+    border-color: #DC2626 !important;
+    /* Vermelho mais escuro */
+    box-shadow: 0 6px 0 #DC2626 !important;
+    color: #440000 !important;
+}
+
+.game-option-btn-3d.incorrect:active {
+    box-shadow: 0 0 0 #DC2626 !important;
+}
+
+/* Animação de Dica no Botão */
+.animate-gentle-hint {
+    animation: gentle-hint 1s ease-in-out;
+}
+
+/* Barra de Progresso Estilizada */
+.game-progress-container {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 999px;
+    padding: 4px;
+    border: 2px solid rgba(0, 0, 0, 0.05);
+}
+
+.game-progress-fill {
+    background-color: var(--accent-primary);
+    border-radius: 999px;
+    height: 12px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.3);
+    /* Brilho interno */
+}
+
+/* Esconder barra de rolagem mas manter funcionalidade */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Animação suave de entrada para as seções */
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    opacity: 0;
+    /* Começa invisível */
+    animation: fadeInSlide 0.6s ease-out forwards;
+}
+
+/* Fundo com padrão de formas transparentes */
+.shape-bg-pattern {
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Tema: Mundo Invertido */
+.theme-upside-down #shape-game-container {
+    transform: rotate(180deg);
+    transition: transform 1s ease;
+}
+
+/* Slot destacando erro (TEA Plan) */
+.shape-slot.hint-active {
+    animation: pulse-border 1s infinite;
+    border-color: var(--accent-primary) !important;
+    background-color: rgba(255, 255, 0, 0.2);
+}
+
+@keyframes pulse-border {
+    0% {
+        border-width: 3px;
+    }
+
+    50% {
+        border-width: 6px;
+    }
+
+    100% {
+        border-width: 3px;
+    }
+}
+
+/* Animação do Icone Current */
+.animate-bounce-slow {
+    animation: bounce 2s infinite;
+}
+
+/* No arquivo src/css/style.css */
+.shape-piece.is-inverted:hover {
+    /* Garante que o scale se aplique sobre a rotação já existente */
+    transform: rotate(180deg) scale(1.05) !important;
+}
+
+
+/* --- ESTILOS DO MODAL DE AVATAR --- */
+
+/* Botão de Perfil Clicável */
+#account-profile-pic-btn {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#account-profile-pic-btn:active {
+    transform: scale(0.95);
+}
+
+/* Ícone de edição sobreposto */
+#account-profile-pic-btn::after {
+    content: '✎';
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: var(--text-primary);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Tabs do Modal */
+.avatar-tab.active {
+    background-color: white;
+    color: var(--text-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.avatar-tab {
+    color: var(--text-secondary);
+}
+
+/* Cards do Grid de Avatar */
+.avatar-option-card {
+    aspect-ratio: 1/1;
+    border-radius: 20px;
+    display: flex;
+    flex-col: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.2s ease;
+    background-color: var(--bg-primary);
+}
+
+.avatar-option-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-option-card.selected {
+    border-color: var(--accent-primary);
+    background-color: var(--accent-secondary);
+}
+
+/* Estilo dos Ícones dentro dos Cards */
+.avatar-preview-icon {
+    font-size: 3rem;
+    /* Para Emojis */
+}
+
+.avatar-preview-lucide {
+    width: 3rem;
+    height: 3rem;
+    /* Para ícones SVG */
+}
+
+/* --- ESTILOS DO MODAL DE ALERTA (CORREÇÃO DE ALINHAMENTO) --- */
+
+/* 1. Container do Modal: Posição Absoluta e cobre a área do App Shell */
+.disclaimer-modal {
+    /* Usar absolute garante que ele respeite os limites do container pai (.app-shell) */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Transparência suave */
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    /* Centraliza verticalmente */
+    justify-content: center;
+    /* Centraliza horizontalmente */
+    z-index: 1000;
+}
+
+/* 2. O Card Interno: Força o conteúdo a se centrar */
+.disclaimer-modal .bg-white {
+    /* Sobrescreve a largura do w-4/5 e aplica a centralização vertical/horizontal */
+    position: relative;
+    max-width: 320px;
+    margin: auto;
+    max-height: 90vh;
+    /* Garante que caiba em telas pequenas */
+    overflow-y: auto;
+    /* Permite rolagem se o conteúdo for muito grande */
+}
+
+/* Estilo do Botão de Aviso Rápido (Redondo, Vermelho, Destaque) */
+.disclaimer-round-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    background-color: var(--game-incorrect);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid white;
+    cursor: pointer;
+    z-index: 5;
+    animation: pulse-red 1.5s infinite;
+}
+
+@keyframes pulse-red {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 60, 60, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 60, 60, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 60, 60, 0);
+    }
+}
