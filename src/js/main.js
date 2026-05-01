@@ -262,6 +262,9 @@ window.onload = () => {
   const profileBtn = document.getElementById("profile-action-btn");
   const profileBtnText = document.getElementById("profile-btn-text");
   const profileBtnIcon = document.getElementById("profile-btn-icon");
+  const sidebarAuthBtn = document.getElementById("sidebar-auth-btn");
+  const sidebarAuthText = document.getElementById("sidebar-auth-text");
+  const sidebarAuthIcon = document.getElementById("sidebar-auth-icon");
 
   const titleHome = document.getElementById("app-title-home"); // ID da Home
   const nameAccount = document.getElementById("account-user-name"); // NOVO ID: Nome na tela de Conta
@@ -285,16 +288,22 @@ window.onload = () => {
       if (profileBtnIcon) {
         profileBtnIcon.setAttribute("data-lucide", "user-circle");
       }
+      if (sidebarAuthText) sidebarAuthText.textContent = "Sair";
+      if (sidebarAuthIcon) sidebarAuthIcon.setAttribute("data-lucide", "log-out");
+      if (sidebarAuthBtn) sidebarAuthBtn.style.backgroundColor = "var(--game-incorrect)";
     } else {
       // ESTADO: DESLOGADO
-      if (titleHome) titleHome.textContent = "NeuroAdapt";
-      if (nameAccount) nameAccount.textContent = "NeuroAdapt"; // Reset no nome da conta
+      if (titleHome) titleHome.textContent = "Ludica+";
+      if (nameAccount) nameAccount.textContent = "Ludica+"; // Reset no nome da conta
       if (statusAccount) statusAccount.textContent = "Usuário Visitante"; // AGORA MOSTRA O STATUS CORRETO
 
       if (profileBtnText) profileBtnText.textContent = "Fazer Login";
       if (profileBtnIcon) {
         profileBtnIcon.setAttribute("data-lucide", "log-in");
       }
+      if (sidebarAuthText) sidebarAuthText.textContent = "Fazer Login";
+      if (sidebarAuthIcon) sidebarAuthIcon.setAttribute("data-lucide", "log-in");
+      if (sidebarAuthBtn) sidebarAuthBtn.style.backgroundColor = "var(--accent-primary)";
     }
 
     // Recarrega ícones para aplicar mudanças
@@ -320,6 +329,24 @@ window.onload = () => {
       } else {
         showScreen("login-screen");
         // Limpa campos visuais
+        if (document.getElementById("login-email"))
+          document.getElementById("login-email").value = "";
+        if (document.getElementById("login-password"))
+          document.getElementById("login-password").value = "";
+        if (errorMsg) errorMsg.textContent = "";
+      }
+    });
+  }
+
+  if (sidebarAuthBtn) {
+    sidebarAuthBtn.addEventListener("click", () => {
+      if (isUserLoggedIn) {
+        localStorage.removeItem("neuro_user_session");
+        updateSessionUI(false);
+        updateAvatarUI({ type: "default" });
+        showScreen("home-screen");
+      } else {
+        showScreen("login-screen");
         if (document.getElementById("login-email"))
           document.getElementById("login-email").value = "";
         if (document.getElementById("login-password"))
@@ -386,6 +413,11 @@ window.onload = () => {
     logoutBtn.parentNode.replaceChild(newLogout, logoutBtn);
 
     newLogout.addEventListener("click", () => {
+      if (!isUserLoggedIn) {
+        showScreen("login-screen");
+        if (errorMsg) errorMsg.textContent = "";
+        return;
+      }
       // 1. Limpa Storage da Sessão
       localStorage.removeItem("neuro_user_session");
 
@@ -591,6 +623,29 @@ window.onload = () => {
     })
   );
 
+  const sidebarCollapseBtn = document.getElementById("sidebar-collapse-btn");
+  const appShell = document.getElementById("app-shell");
+  if (sidebarCollapseBtn && appShell) {
+    sidebarCollapseBtn.addEventListener("click", () => {
+      appShell.classList.toggle("sidebar-collapsed");
+      const icon = sidebarCollapseBtn.querySelector("i");
+      if (icon) {
+        icon.setAttribute(
+          "data-lucide",
+          appShell.classList.contains("sidebar-collapsed")
+            ? "panel-left-open"
+            : "panel-left-close"
+        );
+        if (
+          typeof lucide !== "undefined" &&
+          typeof lucide.createIcons === "function"
+        ) {
+          lucide.createIcons();
+        }
+      }
+    });
+  }
+
   // Listeners de Cards de Jogo (Usa gameController.js)
   document.querySelectorAll(".game-card-link").forEach(l =>
     l.addEventListener("click", e => {
@@ -739,7 +794,7 @@ window.onload = () => {
   // --- 5. ANIMAÇÃO DE BOAS-VINDAS ---
   const welcomeScreen = document.getElementById("welcome-screen");
   const welcomeIcon = welcomeScreen
-    ? welcomeScreen.querySelector(".accent-bg")
+    ? welcomeScreen.querySelector(".welcome-logo-wrap, .accent-bg")
     : null;
 
   if (welcomeScreen && welcomeIcon) {

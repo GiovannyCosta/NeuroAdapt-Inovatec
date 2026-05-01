@@ -44,10 +44,10 @@
 
                 <div id="welcome-screen"
                     class="screen h-full flex flex-col items-center justify-center text-center p-8">
-                    <div class="accent-bg text-white w-32 h-32 rounded-full flex items-center justify-center mb-8">
-                        <i data-lucide="brain-circuit" class="w-16 h-16"></i>
+                    <div class="welcome-logo-wrap mb-8" aria-hidden="true">
+                        <img src="src/assets/ludica-logo.png" alt="" class="welcome-logo">
                     </div>
-                    <h1 class="text-3xl font-bold mb-2">NeuroAdapt</h1>
+                    <h1 class="text-3xl font-bold mb-2">Ludica+</h1>
                     <p class="text-lg" style="color: var(--text-secondary);">Um espaço seguro para crescer.</p>
                 </div>
 
@@ -66,7 +66,7 @@
 
                                     <div>
                                         <h1 id="app-title-home" class="text-3xl font-bold"
-                                            style="color: var(--text-primary);">NeuroAdapt</h1>
+                                            style="color: var(--text-primary);">Ludica+</h1>
                                         <div class="flex items-center space-x-1 mt-1">
                                             <i data-lucide="star" class="w-5 h-5 text-yellow-500 fill-yellow-500"></i>
                                             <span id="total-stars-home" class="text-lg font-bold"
@@ -84,12 +84,6 @@
                                 <button id="profile-action-btn"
                                     class="card w-full p-4 rounded-xl shadow-md flex justify-between items-center transition-transform transform hover:scale-105 active:scale-95">
                                     <span id="profile-btn-text" class="font-semibold">Fazer Login</span>
-                                    <i data-lucide="chevron-right" class="w-5 h-5"
-                                        style="color: var(--text-secondary);"></i>
-                                </button>
-                                <button id="open-achievements-btn"
-                                    class="card w-full p-4 rounded-xl shadow-md flex justify-between items-center transition-transform transform hover:scale-105 active:scale-95">
-                                    <span class="font-semibold">Minhas Conquistas</span>
                                     <i data-lucide="chevron-right" class="w-5 h-5"
                                         style="color: var(--text-secondary);"></i>
                                 </button>
@@ -187,7 +181,7 @@
                             </button>
                             <div>
                                 <h2 id="account-user-name" class="text-xl font-bold"
-                                    style="color: var(--text-primary);">NeuroAdapt
+                                    style="color: var(--text-primary);">Ludica+
                                 </h2>
                                 <p id="account-status-text" class="text-sm" style="color: var(--text-secondary);">
                                     Conta Principal</p>
@@ -1726,6 +1720,10 @@
             </div>
 
             <nav class="card w-full h-24 rounded-t-3xl shadow-inner-top p-2 absolute bottom-0 left-0 right-0">
+                <button id="sidebar-collapse-btn" type="button" aria-label="Alternar menu"
+                    class="sidebar-collapse-btn">
+                    <i data-lucide="panel-left-close" class="w-5 h-5"></i>
+                </button>
                 <div class="flex justify-around items-center h-full">
                     <a href="#"
                         class="nav-item flex flex-col items-center justify-center space-y-1 text-gray-400 relative"
@@ -1753,6 +1751,14 @@
                     </a>
                     <a href="#"
                         class="nav-item flex flex-col items-center justify-center space-y-1 text-gray-400 relative"
+                        data-screen="achievements-screen">
+                        <div
+                            class="accent-bg-highlight hidden accent-bg w-12 h-8 rounded-full absolute -z-10 top-1 opacity-30">
+                        </div> <i data-lucide="trophy" class="w-7 h-7"></i> <span
+                            class="text-xs font-medium">Conquistas</span>
+                    </a>
+                    <a href="#"
+                        class="nav-item flex flex-col items-center justify-center space-y-1 text-gray-400 relative"
                         data-screen="home-screen">
                         <div
                             class="accent-bg-highlight hidden accent-bg w-12 h-8 rounded-full absolute -z-10 top-1 opacity-30">
@@ -1761,17 +1767,11 @@
                     </a>
                 </div>
                 <div class="card p-5 rounded-2xl shadow-md space-y-3">
-                    <button
+                    <button id="sidebar-auth-btn"
                         class="w-full p-4 rounded-xl flex justify-between items-center transition-transform transform hover:scale-105 active:scale-95"
-                        style="background-color: var(--game-incorrect); opacity: 0.9;">
-                        <span class="font-semibold text-white">Sair (Logout)</span>
-                        <i data-lucide="log-out" class="w-5 h-5 text-white"></i>
-                    </button>
-
-                    <button id="dev-reset-btn"
-                        class="w-full p-4 rounded-xl flex justify-between items-center border-2 border-red-500 text-red-500 font-bold hover:bg-red-50 transition-colors mt-4 active:scale-95">
-                        <span>[DEV] Resetar Memória</span>
-                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                        style="background-color: var(--accent-primary); opacity: 0.95;">
+                        <span id="sidebar-auth-text" class="font-semibold text-white">Fazer Login</span>
+                        <i id="sidebar-auth-icon" data-lucide="log-in" class="w-5 h-5 text-white"></i>
                     </button>
                 </div>
             </nav>
