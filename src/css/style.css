@@ -1815,30 +1815,26 @@ h1,
   min-height: 58px;
   display: flex;
   align-items: center;
-  padding-left: 54px;
+  padding-left: 84px;
   color: var(--text-primary);
   font-size: 1.05rem;
   font-weight: 850;
   letter-spacing: 0;
   background:
-    radial-gradient(circle at 25px 50%, var(--accent-primary) 0 19px, transparent 20px),
     linear-gradient(135deg, rgba(15, 139, 141, 0.1), rgba(255, 255, 255, 0.22));
   border-radius: 20px;
 }
 
 .app-container > nav::after {
-  content: "L+";
+  content: "";
   position: absolute;
-  top: 39px;
-  left: 34px;
-  width: 36px;
-  height: 36px;
+  top: 33px;
+  left: 28px;
+  width: 64px;
+  height: 48px;
   display: grid;
   place-items: center;
-  color: #fff;
-  font-size: 0.72rem;
-  font-weight: 900;
-  letter-spacing: 0;
+  background: url("../assets/ludica-logo.png") center / contain no-repeat;
   z-index: 1;
 }
 
@@ -2622,7 +2618,7 @@ canvas,
 }
 
 .app-container > nav::after {
-  content: "L+";
+  content: "";
 }
 
 @media (min-width: 769px) {
