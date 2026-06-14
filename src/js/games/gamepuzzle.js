@@ -61,3 +61,4 @@ function checkPuzzleCompletion() {
     setTimeout(resetPuzzleGame, 1500);
   }
 }
+

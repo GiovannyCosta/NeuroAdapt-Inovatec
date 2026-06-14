@@ -109,7 +109,7 @@ const ShapeLogic = {
     ShapeJourneyData.forEach(journey => {
       const progress = ShapeLevels.getJourneyProgressPct(journey.id);
       const btn = document.createElement("button");
-      btn.className = `card w-full p-4 rounded-xl shadow-md flex items-center justify-start space-x-4 border-l-8 transition-transform bg-white border-blue-500 hover:scale-[1.01]`;
+      btn.className = `card w-full p-4 rounded-xl shadow-md flex items-center justify-start space-x-4 border-l-8 transition-transform bg-white border-blue-500`;
       btn.innerHTML = `
                 <span class="text-4xl">${journey.icon}</span>
                 <div class="text-left flex-grow">
@@ -344,3 +344,4 @@ const ShapeLogic = {
     }
   },
 };
+

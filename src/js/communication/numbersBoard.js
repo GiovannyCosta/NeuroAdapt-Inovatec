@@ -33,7 +33,7 @@ const NumbersBoard = {
     this.data.forEach((item) => {
       const btn = document.createElement("button");
       btn.className =
-        "card number-btn flex flex-col items-center justify-center p-6 rounded-[32px] shadow-md active:scale-95 transition-all duration-200 bg-white border-2 border-transparent hover:border-blue-400";
+        "card number-btn flex flex-col items-center justify-center p-6 rounded-[32px] shadow-md active:scale-95 transition-all duration-200 bg-white border-2 border-transparent";
 
       const dotsHTML = this.generateDotsHTML(item.value);
 
@@ -87,3 +87,4 @@ const NumbersBoard = {
     });
   },
 };
+

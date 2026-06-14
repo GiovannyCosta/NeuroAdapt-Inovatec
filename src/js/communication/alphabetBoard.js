@@ -77,7 +77,7 @@ const AlphabetBoard = {
       const btn = document.createElement("button");
 
       let classes =
-        "card flex flex-col items-center justify-center p-1 rounded-xl shadow-sm active:scale-95 transition-transform bg-white border border-transparent hover:border-blue-400 w-full h-full";
+        "card flex flex-col items-center justify-center p-1 rounded-xl shadow-sm active:scale-95 transition-transform bg-white border border-transparent w-full h-full";
 
       if (index >= 24) {
         classes += " col-span-2";
@@ -98,3 +98,4 @@ const AlphabetBoard = {
     });
   },
 };
+

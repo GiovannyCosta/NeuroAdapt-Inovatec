@@ -255,3 +255,4 @@ function checkConnectDotsCompletion() {
     }, 1500);
   }
 }
+

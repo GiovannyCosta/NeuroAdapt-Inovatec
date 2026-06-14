@@ -129,3 +129,4 @@ function handleColorGuess(event) {
     displayNextColorRound();
   }, 1500);
 }
+

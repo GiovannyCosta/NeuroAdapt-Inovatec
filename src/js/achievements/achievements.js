@@ -298,3 +298,4 @@ function showAchievementPopup(icon, name) {
 }
 
 loadAchievements();
+

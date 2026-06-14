@@ -508,3 +508,4 @@ const CommReports = {
     if (typeof lucide !== "undefined") lucide.createIcons();
   },
 };
+

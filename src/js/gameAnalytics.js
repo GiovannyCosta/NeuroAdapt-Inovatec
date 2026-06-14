@@ -242,3 +242,4 @@ const GameAnalytics = {
 };
 
 GameAnalytics.load();
+

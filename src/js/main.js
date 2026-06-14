@@ -284,25 +284,25 @@ window.onload = () => {
       if (statusAccount) statusAccount.textContent = "Usuário Logado"; // AGORA MOSTRA O STATUS CORRETO
 
       // 2. Atualiza Botão da Home
-      if (profileBtnText) profileBtnText.textContent = "Minha Conta";
+      if (profileBtnText) profileBtnText.textContent = "Perfil";
       if (profileBtnIcon) {
         profileBtnIcon.setAttribute("data-lucide", "user-circle");
       }
-      if (sidebarAuthText) sidebarAuthText.textContent = "Sair";
-      if (sidebarAuthIcon) sidebarAuthIcon.setAttribute("data-lucide", "log-out");
-      if (sidebarAuthBtn) sidebarAuthBtn.style.backgroundColor = "var(--game-incorrect)";
+      if (sidebarAuthText) sidebarAuthText.textContent = "Login bloqueado";
+      if (sidebarAuthIcon) sidebarAuthIcon.setAttribute("data-lucide", "lock-keyhole");
+      if (sidebarAuthBtn) sidebarAuthBtn.style.backgroundColor = "var(--accent-primary)";
     } else {
       // ESTADO: DESLOGADO
       if (titleHome) titleHome.textContent = "Ludica+";
       if (nameAccount) nameAccount.textContent = "Ludica+"; // Reset no nome da conta
       if (statusAccount) statusAccount.textContent = "Usuário Visitante"; // AGORA MOSTRA O STATUS CORRETO
 
-      if (profileBtnText) profileBtnText.textContent = "Fazer Login";
+      if (profileBtnText) profileBtnText.textContent = "Perfil";
       if (profileBtnIcon) {
-        profileBtnIcon.setAttribute("data-lucide", "log-in");
+        profileBtnIcon.setAttribute("data-lucide", "user-round");
       }
-      if (sidebarAuthText) sidebarAuthText.textContent = "Fazer Login";
-      if (sidebarAuthIcon) sidebarAuthIcon.setAttribute("data-lucide", "log-in");
+      if (sidebarAuthText) sidebarAuthText.textContent = "Login bloqueado";
+      if (sidebarAuthIcon) sidebarAuthIcon.setAttribute("data-lucide", "lock-keyhole");
       if (sidebarAuthBtn) sidebarAuthBtn.style.backgroundColor = "var(--accent-primary)";
     }
 
@@ -311,7 +311,7 @@ window.onload = () => {
   }
 
   // A. Verificar Login Salvo ao Iniciar
-  const savedSession = localStorage.getItem("neuro_user_session");
+  const savedSession = localStorage.getItem("ludica_user_session");
   if (savedSession) {
     try {
       const sessionData = JSON.parse(savedSession);
@@ -321,38 +321,16 @@ window.onload = () => {
     }
   }
 
-  // B. Evento: Abrir Login ou Conta (Botão da Home)
+  // Perfil fica em homologacao nesta etapa.
   if (profileBtn) {
     profileBtn.addEventListener("click", () => {
-      if (isUserLoggedIn) {
-        showScreen("account-screen");
-      } else {
-        showScreen("login-screen");
-        // Limpa campos visuais
-        if (document.getElementById("login-email"))
-          document.getElementById("login-email").value = "";
-        if (document.getElementById("login-password"))
-          document.getElementById("login-password").value = "";
-        if (errorMsg) errorMsg.textContent = "";
-      }
+      showScreen("account-screen");
     });
   }
 
   if (sidebarAuthBtn) {
     sidebarAuthBtn.addEventListener("click", () => {
-      if (isUserLoggedIn) {
-        localStorage.removeItem("neuro_user_session");
-        updateSessionUI(false);
-        updateAvatarUI({ type: "default" });
-        showScreen("home-screen");
-      } else {
-        showScreen("login-screen");
-        if (document.getElementById("login-email"))
-          document.getElementById("login-email").value = "";
-        if (document.getElementById("login-password"))
-          document.getElementById("login-password").value = "";
-        if (errorMsg) errorMsg.textContent = "";
-      }
+      showScreen("account-screen");
     });
   }
 
@@ -361,7 +339,7 @@ window.onload = () => {
     showScreen("home-screen");
   });
 
-  // D. Evento: Fazer Login (Submit do Formulário)
+  // Formulario legado mantido fora do fluxo atual.
   if (loginForm) {
     loginForm.addEventListener("submit", e => {
       e.preventDefault();
@@ -380,7 +358,7 @@ window.onload = () => {
         const sessionData = { name: randomName, email: email };
 
         // 2. Salvar no LocalStorage
-        localStorage.setItem("neuro_user_session", JSON.stringify(sessionData));
+        localStorage.setItem("ludica_user_session", JSON.stringify(sessionData));
 
         // 3. Atualizar UI
         updateSessionUI(true, sessionData);
@@ -419,7 +397,7 @@ window.onload = () => {
         return;
       }
       // 1. Limpa Storage da Sessão
-      localStorage.removeItem("neuro_user_session");
+      localStorage.removeItem("ludica_user_session");
 
       // 2. Reseta UI
       updateSessionUI(false);
@@ -855,3 +833,5 @@ window.onload = () => {
     backBtn.addEventListener("click", closeAbout);
   });
 })();
+
+

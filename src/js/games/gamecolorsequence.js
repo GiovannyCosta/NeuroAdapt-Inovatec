@@ -240,3 +240,4 @@ function completeRound() {
     loadSequenceLevel();
   }, 1500);
 }
+

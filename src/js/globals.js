@@ -109,7 +109,7 @@ const baseConnectDotsPairs = [
   { id: 4, color: "yellow" },
 ];
 
-const puzzleLetters = "NEUROADAPT".split("");
+const puzzleLetters = "Ludica+".split("");
 const puzzlePiecesDef = puzzleLetters.map((l, i) => ({
   id: `l${i + 1}`,
   letter: l,
@@ -930,3 +930,5 @@ window.registerCaaEvent = function (itemId, label, categoryId) {
 
 // Carrega o histórico assim que o arquivo é lido
 loadCaaHistory();
+
+

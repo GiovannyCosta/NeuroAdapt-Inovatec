@@ -66,7 +66,7 @@ const EmotionGameplay = {
     options.forEach(opt => {
       const btn = document.createElement("button");
       btn.className =
-        "w-full py-4 bg-white border-2 border-gray-200 rounded-2xl shadow-sm text-lg font-bold text-gray-700 hover:border-blue-400 hover:bg-blue-50 transition-all active:scale-95";
+        "w-full py-4 bg-white border-2 border-gray-200 rounded-2xl shadow-sm text-lg font-bold text-gray-700 transition-all active:scale-95";
       btn.textContent = opt.name;
 
       if (opt.name === itemData.name) {
@@ -81,3 +81,4 @@ const EmotionGameplay = {
     });
   },
 };
+

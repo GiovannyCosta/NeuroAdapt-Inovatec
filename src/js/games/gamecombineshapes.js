@@ -62,3 +62,4 @@ function checkGameCompletion() {
     setTimeout(resetCombineAsFormasGame, 1500); //
   }
 }
+

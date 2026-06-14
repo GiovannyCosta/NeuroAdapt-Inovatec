@@ -83,7 +83,7 @@ const SoundLogic = {
       const statusClass = isCompleted ? "text-blue-500" : "text-gray-500";
 
       const btn = document.createElement("button");
-      btn.className = `card w-full p-4 rounded-xl shadow-md flex items-center justify-start space-x-4 hover:scale-[1.01] transition-transform`;
+      btn.className = `card w-full p-4 rounded-xl shadow-md flex items-center justify-start space-x-4 transition-transform`;
       btn.setAttribute(
         "style",
         `border-left: 8px solid var(--game-${world.color});`
@@ -229,7 +229,7 @@ const SoundLogic = {
         );
         if (this.currentMode === "free") {
           node.classList.remove("cursor-not-allowed");
-          node.classList.add("hover:scale-110");
+          node.classList.add("active:scale-95");
           node.onclick = () => this.enterLevel(pt.index);
         } else {
           node.innerHTML = `<i data-lucide="lock" class="w-6 h-6 text-gray-500"></i>`;
@@ -654,3 +654,4 @@ const SoundLogic = {
 window.initializeSoundGame = function () {
   SoundLogic.init();
 };
+

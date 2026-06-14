@@ -223,7 +223,7 @@ const EmotionsBoard = {
     Object.values(this.emotionData).forEach(data => {
       const btn = document.createElement("button");
       btn.className =
-        "card p-4 rounded-xl flex flex-col items-center justify-center shadow-sm hover:bg-blue-50 transition-colors";
+        "card p-4 rounded-xl flex flex-col items-center justify-center shadow-sm transition-colors";
       btn.innerHTML = `<span class="text-5xl mb-2">${data.emoji}</span><span class="font-bold accent-text">${data.name}</span>`;
 
       btn.onclick = () => this.showDetail(data);
@@ -261,3 +261,4 @@ const EmotionsBoard = {
     }
   },
 };
+

@@ -85,3 +85,4 @@ const ShapeLevels = {
     return Math.min(100, (current / journey.levels.length) * 100);
   },
 };
+

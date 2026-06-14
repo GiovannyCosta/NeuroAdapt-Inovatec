@@ -100,7 +100,7 @@ const ShapeGameplay = {
     pieces.forEach(p => {
       const pc = document.createElement("div");
       pc.className =
-        "shape-piece card shadow-lg rounded-xl flex items-center justify-center cursor-grab active:cursor-grabbing hover:scale-105 transition-transform border-2 border-gray-100 bg-white";
+        "shape-piece card shadow-lg rounded-xl flex items-center justify-center cursor-grab active:cursor-grabbing transition-transform border-2 border-gray-100 bg-white";
       pc.style.width = "70px";
       pc.style.height = "70px";
       pc.style.color = p.color;
@@ -194,3 +194,4 @@ window.showGameFeedback = (id, msg, isCorrect) => {
     originalShowFeedback(id, msg, isCorrect);
   if (id === "combine-feedback" && !isCorrect) ShapeGameplay.handleError();
 };
+

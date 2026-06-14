@@ -269,3 +269,4 @@ function checkConnectNumbersCompletion() {
     }, 1500);
   }
 }
+

@@ -45,8 +45,8 @@ const EmotionLogic = {
         "bg-white",
         "border-gray-200",
         "text-gray-700",
-        "hover:border-blue-400",
-        "hover:bg-blue-50"
+        "border-blue-200",
+        "bg-white"
       );
       btn.classList.add(
         "bg-green-500",
@@ -103,8 +103,8 @@ const EmotionLogic = {
         "bg-white",
         "border-gray-200",
         "text-gray-700",
-        "hover:border-blue-400",
-        "hover:bg-blue-50"
+        "border-blue-200",
+        "bg-white"
       );
       btn.classList.add(
         "bg-red-500",
@@ -169,7 +169,7 @@ const EmotionLogic = {
         ).className = `text-5xl bg-${color}-50 p-3 rounded-2xl flex items-center justify-center w-20 h-20`;
         document.getElementById(
           "emotion-menu-main-btn"
-        ).className = `w-full py-4 bg-${color}-500 text-white rounded-2xl font-bold text-xl shadow-lg shadow-${color}-200 hover:scale-105 transition-transform flex items-center justify-center space-x-2`;
+        ).className = `w-full py-4 bg-${color}-500 text-white rounded-2xl font-bold text-xl shadow-lg shadow-${color}-200 transition-transform flex items-center justify-center space-x-2`;
         document.getElementById("emotion-menu-world-title").textContent =
           currentWorld.title;
         document.getElementById("emotion-menu-world-icon").textContent =
@@ -414,3 +414,4 @@ const EmotionLogic = {
     }
   },
 };
+

@@ -232,7 +232,7 @@ const GamesReports = {
                     <div class="bg-white/20 p-3 rounded-xl backdrop-blur-sm"><i data-lucide="calendar" class="w-8 h-8 text-white"></i></div>
                     <div>
                         <h3 class="font-bold text-lg mb-2 text-white opacity-90">Recomendação da Semana</h3>
-                        <p class="text-base leading-relaxed text-blue-50">NeuroAdapt está melhorando em <strong class="text-white border-b border-white/40">${bestCategory}</strong>! Sugerimos focar no jogo <strong class="text-yellow-300">"${
+                        <p class="text-base leading-relaxed text-blue-50">Ludica+ está melhorando em <strong class="text-white border-b border-white/40">${bestCategory}</strong>! Sugerimos focar no jogo <strong class="text-yellow-300">"${
       ReportLogic.games[bestGameId]?.name || "Combine as Formas"
     }"</strong> esta semana.</p>
                     </div>
@@ -415,3 +415,5 @@ const GamesReports = {
     if (typeof lucide !== "undefined") lucide.createIcons();
   },
 };
+
+
