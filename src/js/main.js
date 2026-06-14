@@ -61,22 +61,32 @@ const screenToGameId = {
 function setTheme(theme) {
   const a = document.getElementById("app-shell"),
     c = document.getElementById("calm-mode-btn"),
-    s = document.getElementById("stimulant-mode-btn");
+    s = document.getElementById("stimulant-mode-btn"),
+    sc = document.getElementById("sidebar-calm-mode-btn"),
+    ss = document.getElementById("sidebar-stimulant-mode-btn");
 
   if (theme === "stimulant") {
     a.classList.remove("theme-calm");
     a.classList.add("theme-stimulant");
+    s?.classList.add("active");
     s.classList.remove("opacity-60", "border-transparent");
     s.classList.add("opacity-100", "border-amber-500");
+    c?.classList.remove("active");
     c.classList.add("opacity-60", "border-transparent");
     c.classList.remove("opacity-100", "border-blue-500");
+    ss?.classList.add("active");
+    sc?.classList.remove("active");
   } else {
     a.classList.remove("theme-stimulant");
     a.classList.add("theme-calm");
+    c?.classList.add("active");
     c.classList.remove("opacity-60", "border-transparent");
     c.classList.add("opacity-100", "border-blue-500");
+    s?.classList.remove("active");
     s.classList.add("opacity-60", "border-transparent");
     s.classList.remove("opacity-100", "border-amber-500");
+    sc?.classList.add("active");
+    ss?.classList.remove("active");
   }
 
   // Recarrega pictogramas se necessário

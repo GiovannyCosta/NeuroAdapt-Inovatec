@@ -1801,8 +1801,8 @@
                 </div>
                 <div class="card sidebar-extra-panel p-5 rounded-2xl shadow-md space-y-3">
                     <div class="sidebar-mode-switch">
-                        <button type="button" onclick="setTheme('calm')">Calmo</button>
-                        <button type="button" onclick="setTheme('stimulant')">Estimulante</button>
+                        <button id="sidebar-calm-mode-btn" class="active" type="button" onclick="setTheme('calm')">Calmo</button>
+                        <button id="sidebar-stimulant-mode-btn" type="button" onclick="setTheme('stimulant')">Estimulante</button>
                     </div>
                     <button id="sidebar-auth-btn"
                         class="w-full p-4 rounded-xl flex justify-between items-center transition-transform transform active:scale-95"
@@ -1948,4 +1948,3 @@
 </body>
 
 </html>
-
