@@ -2553,7 +2553,7 @@ canvas,
 }
 
 .welcome-logo-wrap {
-  width: clamp(220px, 24vw, 390px);
+  width: clamp(240px, 26vw, 410px);
   max-width: 78vw;
   aspect-ratio: 1 / 1;
   display: grid;
@@ -2581,10 +2581,20 @@ canvas,
   background:
     radial-gradient(circle at 50% 42%, rgba(15, 139, 141, 0.1), transparent 34%),
     linear-gradient(180deg, #fbfdfb 0%, #eef6f4 100%) !important;
+  justify-content: center !important;
+  gap: 18px;
 }
 
 #welcome-screen h1 {
   color: var(--text-primary) !important;
+}
+
+.welcome-tagline {
+  margin: 0;
+  color: var(--text-secondary) !important;
+  font-size: clamp(1.05rem, 1.4vw, 1.35rem) !important;
+  font-weight: 700;
+  text-align: center;
 }
 
 @keyframes welcomeLogoFloat {
